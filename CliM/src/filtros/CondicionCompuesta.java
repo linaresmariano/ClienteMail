@@ -4,36 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import filtrosTest.Mail;
 
-public class CondicionCompuesta extends Condicion {
-	private OperadorBool operador;
-	private List<Condicion> operandos = new ArrayList<Condicion>();
+public abstract class CondicionCompuesta extends Condicion {
 	
-	public CondicionCompuesta(OperadorBool op) {
-		this.operador = op;
-	}
+	private List<Condicion> operandos = new ArrayList<Condicion>();
 	
 	public void addCondicion(Condicion c) {
 		this.getOperandos().add(c);
 	}
 	
-	public boolean evaluar(Mail m) {
-		boolean retval = false;
-		
-		// Si hay operandos
-		if(! this.getOperandos().isEmpty()) {
-			retval = this.getOperandos().get(0).evaluar(m);
-			
-			for(Condicion c : this.getOperandos()) {
-				retval = this.getOperador().evaluar(c.evaluar(m), retval);
-			}
-		}
-		
-		return retval;
-	}
-	
-	public OperadorBool getOperador() {
-		return this.operador;
-	}
+	public abstract boolean evaluar(Mail m);
 	
 	public List<Condicion> getOperandos() {
 		return this.operandos;

@@ -1,10 +1,24 @@
 package filtros;
 
-public class AND extends OperadorBool {
+import filtrosTest.Mail;
 
+public class AND extends CondicionCompuesta {
+
+	public AND(Condicion a, Condicion b) {
+		this.addCondicion(a);
+		this.addCondicion(b);
+	}
+	
 	@Override
-	public boolean evaluar(boolean a, boolean b) {
-		return (a && b);
+	public boolean evaluar(Mail m) {
+		
+		boolean retval = true;
+
+		for(Condicion c : this.getOperandos()) {
+			retval = c.evaluar(m) && retval;
+		}
+		
+		return retval;
 	}
 
 }
