@@ -1,6 +1,6 @@
 package filtros;
 
-import filtros.Mail;
+import directorio.Mail;
 
 public abstract class Condicion {
 	public abstract boolean evaluar(Mail m);

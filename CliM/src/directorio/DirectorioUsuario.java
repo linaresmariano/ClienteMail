@@ -1,4 +1,4 @@
-package directorioUsuario;
+package directorio;
 
 public abstract class DirectorioUsuario {
 

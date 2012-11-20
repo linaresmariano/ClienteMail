@@ -1,6 +1,6 @@
 package filtros.condicionSimple;
 
-import filtros.Mail;
+import directorio.Mail;
 
 public class EsIgual extends CondicionSimple {
 

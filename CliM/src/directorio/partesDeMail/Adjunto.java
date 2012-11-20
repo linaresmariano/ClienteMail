@@ -1,4 +1,4 @@
-package directorioUsuario.partesDeMail;
+package directorio.partesDeMail;
 
 public class Adjunto {
 

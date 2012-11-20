@@ -5,6 +5,9 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import directorio.Mail;
+import filtros.accion.*;
+
 public class AccionTest {
 
 	private Accion accion;

@@ -1,6 +1,6 @@
 package filtros;
 
-import filtros.Mail;
+import directorio.Mail;
 
 public class OR extends CondicionCompuesta {
 

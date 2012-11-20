@@ -1,7 +1,7 @@
 package filtros.condicionSimple;
 
 import filtros.Condicion;
-import filtros.Mail;
+import directorio.Mail;
 
 public abstract class CondicionSimple extends Condicion {
 	

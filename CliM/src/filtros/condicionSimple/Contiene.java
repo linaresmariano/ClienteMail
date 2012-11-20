@@ -1,6 +1,6 @@
 package filtros.condicionSimple;
 
-import filtros.Mail;
+import directorio.Mail;
 
 public class Contiene extends CondicionSimple {
 
@@ -12,5 +12,4 @@ public class Contiene extends CondicionSimple {
 	public boolean evaluar(Mail m) {
 		return (this.getCampo().evaluarContiene(m));
 	}
-
 }

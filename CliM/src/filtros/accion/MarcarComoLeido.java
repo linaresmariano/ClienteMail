@@ -1,6 +1,6 @@
 package filtros.accion;
 
-import filtros.Mail;
+import directorio.Mail;
 
 public class MarcarComoLeido extends Accion {
 

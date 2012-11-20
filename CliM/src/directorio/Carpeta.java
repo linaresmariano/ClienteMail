@@ -1,4 +1,4 @@
-package directorioUsuario;
+package directorio;
 
 import java.util.LinkedList;
 import java.util.List;

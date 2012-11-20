@@ -8,6 +8,9 @@ import java.util.LinkedList;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+
+import directorio.Carpeta;
+import directorio.Mail;
 import static org.mockito.Mockito.*;
 
 public class CarpetaTest {
