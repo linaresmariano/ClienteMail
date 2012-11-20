@@ -2,7 +2,8 @@ package filtros;
 
 import java.util.ArrayList;
 import java.util.List;
-import filtrosTest.Mail;
+
+import filtros.Mail;
 
 public abstract class CondicionCompuesta extends Condicion {
 	

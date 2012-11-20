@@ -1,6 +1,6 @@
 package filtros;
 
-import filtrosTest.Mail;
+import filtros.Mail;
 
 public abstract class Campo {
 	public abstract boolean evaluarContiene(Mail m);

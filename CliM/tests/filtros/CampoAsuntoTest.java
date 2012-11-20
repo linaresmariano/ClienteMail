@@ -1,4 +1,4 @@
-package filtrosTest;
+package filtros;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import filtros.Asunto;
 
-public class TestCampoAsunto {
+public class CampoAsuntoTest {
 
 	private Asunto asunto;
 	private Mail mail;
