@@ -1,10 +1,10 @@
-package filtros;
+package filtros.condicionSimple;
 
 import filtros.Mail;
 
-public class Contiene extends CondicionSimple {
+public class EsIgual extends CondicionSimple {
 
-	public Contiene(Campo c) {
+	public EsIgual(Campo c) {
 		super(c);
 	}
 

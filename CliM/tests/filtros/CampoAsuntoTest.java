@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import filtros.Asunto;
+import filtros.condicionSimple.Asunto;
 
 public class CampoAsuntoTest {
 

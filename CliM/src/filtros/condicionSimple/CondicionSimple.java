@@ -1,5 +1,6 @@
-package filtros;
+package filtros.condicionSimple;
 
+import filtros.Condicion;
 import filtros.Mail;
 
 public abstract class CondicionSimple extends Condicion {

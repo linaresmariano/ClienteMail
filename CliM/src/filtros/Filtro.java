@@ -28,5 +28,8 @@ public class Filtro {
 		this.ejecutarAccion(m);
 	}
 	
+	public boolean esExcluyente() {
+		return this.excluyente;
+	}
 	
 }

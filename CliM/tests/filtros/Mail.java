@@ -1,5 +1,8 @@
 package filtros;
 
-public class Mail {
 
+public abstract class Mail {
+	//public abstract Contacto getRemitente();
+	
+	public abstract String getAsunto();
 }

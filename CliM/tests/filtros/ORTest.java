@@ -7,6 +7,10 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
+import filtros.condicionSimple.CondicionSimple;
+import filtros.condicionSimple.Contiene;
+import filtros.condicionSimple.EsDistinto;
+
 public class ORTest {
 
 	private CondicionCompuesta condC;

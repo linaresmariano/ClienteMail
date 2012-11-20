@@ -1,4 +1,4 @@
-package filtros;
+package filtros.condicionSimple;
 
 import filtros.Mail;
 
