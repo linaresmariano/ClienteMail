@@ -12,15 +12,25 @@ public class Cliente {
 	private LinkedList<UsuarioCliente> usuarios;
 	
 	public Cliente() {
-		usuarios=new LinkedList<UsuarioCliente>();
 		
+		usuarios=new LinkedList<UsuarioCliente>();
 	}
 	
-	public void login(String usuario, String password, String servidor) {
+	public void login(String usuario, String password) {
 		
-		String username = usuario.concat("@").concat(servidor);
-		this.server.login(username, password, serverSMTP);
+		try {
 		
+			this.server.login(usuario, password);
+			for (int i=0; i<this.usuarios.size(); i++) {
+				if (this.usuarios.get(i).getUsuario() == usuario) { break; }
+				if (i == this.usuarios.size() - 1) { 
+					UsuarioCliente newUser = new UsuarioCliente(usuario, password);
+					this.usuarios.add(newUser);
+				}
+			}	
+		}
+		
+		catch (Exception e) { }
 	}
 	
 	public void send(Mail mail) {

@@ -26,7 +26,7 @@ public abstract class Evento {
 	
     //metodos abstractos
 	public abstract boolean termino(Calendar actual);
-	public abstract  void realizarEvento(Calendar actual) ;
+	public abstract void realizarEvento(Calendar actual) ;
 	
 	
 	public Calendar getFechaInicio() {
