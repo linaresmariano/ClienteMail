@@ -11,6 +11,8 @@ import filtros.condicionSimple.CondicionSimple;
 import filtros.condicionSimple.Contiene;
 import filtros.condicionSimple.EsDistinto;
 
+import directorio.Mail;
+
 public class ORTest {
 
 	private CondicionCompuesta condC;

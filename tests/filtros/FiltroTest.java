@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import filtros.accion.*;
+import directorio.Mail;
 
 public class FiltroTest {
 

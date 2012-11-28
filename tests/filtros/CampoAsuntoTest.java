@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import filtros.condicionSimple.Asunto;
+import directorio.Mail;
 
 public class CampoAsuntoTest {
 

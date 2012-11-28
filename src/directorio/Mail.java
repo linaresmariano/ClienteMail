@@ -49,6 +49,10 @@ public class Mail extends DirectorioUsuario{
 		return this.leido;
 	}
 	
+	public void setLeido(boolean b) {
+		this.leido = b;
+	}
+	
 	public Adjunto getAdjunto() {
 		return this.adjunto;
 	}

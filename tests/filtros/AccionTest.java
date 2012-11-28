@@ -2,6 +2,9 @@ package filtros;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+
+import java.util.LinkedList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,30 +22,37 @@ public class AccionTest {
 	}
 
 	@Test
+	public void testEjecutarAccionMoverACarpeta() {
+		
+		// Destino del mover carpeta
+		LinkedList<String> destino = new LinkedList<String>();
+		destino.add("alguna");
+		
+		// Accion a testear
+		MoverACarpeta accion = new MoverACarpeta(destino);
+		
+		this.accion.ejecutarAccion(this.mail);
+		verify(this.mail).setEtiqueta(accion.getPathDestino());
+		assertEquals(this.mail.getEtiqueta(), accion.getPathDestino());
+	}
+	
+	@Test
 	public void testEjecutarAccionBorrar() {
 		// Accion a testear
-		this.accion = new Borrar();
+		Borrar accion = new Borrar();
 		
-		this.accion.ejecutarAccion(this.mail);
-		verify(this.mail).setBorrado(true);
+		accion.ejecutarAccion(this.mail);
+		
+		verify(this.mail).setEtiqueta(accion.getPathDestino());
+		assertEquals(this.mail.getEtiqueta(), accion.getPathDestino());
 	}
 	
 	@Test
-	public void testEjecutarAccionMoverACarpeta() {
+	public void testEjecutarAccionMarcarComoLeido() {
 		// Accion a testear
-		this.accion = new MoverACarpeta();
+		MarcarComoLeido accion = new MarcarComoLeido();
 		
-		this.accion.ejecutarAccion(this.mail);
-		verify(this.mail).setPath(this.accion.getPathDestino());
-		assertEqual(this.mail.getPath(), this.accion.getPathDestino());
-	}
-	
-	@Test
-	public void testEjecutarAccionMoverACarpeta() {
-		// Accion a testear
-		this.accion = new MarcarComoLeido();
-		
-		this.accion.ejecutarAccion(this.mail);
-		verify(this.mail).setPath(this.accion.setLeido(true));
+		accion.ejecutarAccion(this.mail);
+		verify(this.mail).setLeido(true);
 	}
 }

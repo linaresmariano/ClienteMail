@@ -1,11 +1,16 @@
 package filtros.accion;
 
-import directorio.Mail;
+import java.util.LinkedList;
+import java.util.List;
 
-public class Borrar extends Accion {
+public class Borrar extends MoverACarpeta {
 
-	@Override
-	public void ejecutarAccion(Mail m) {
+	public Borrar() {
+		
+		List<String> papelera = new LinkedList<String>();
+		papelera.add("papelera");
+		
+		super(papelera);
 	}
-
+	
 }
