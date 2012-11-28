@@ -1,5 +1,7 @@
 package estrategiaAcceso;
 
+import directorio.Mail;
+
 public class POP3 extends EstrategiaAcceso {
 
 	private boolean dejarCopia;
@@ -9,11 +11,15 @@ public class POP3 extends EstrategiaAcceso {
 		
 		
 	}
-	
+
 	@Override
 	public String getCuerpo(Mail mail) {
 		
-		return mail.getCuerpo();
+	}
+
+	@Override
+	public AdjuntoMail getAdjunto(Mail mail) {
+		
 	}
 	
 }

@@ -1,5 +1,7 @@
 package estrategiaAcceso;
 
+import directorio.Mail;
+
 public class IMAP extends EstrategiaAcceso {
 	
 	@Override
@@ -11,7 +13,13 @@ public class IMAP extends EstrategiaAcceso {
 	@Override
 	public String getCuerpo(Mail mail) {
 		
-		return mail.getCuerpo();
+		
+	}
+
+	@Override
+	public AdjuntoMail getAdjunto(Mail mail) {
+		
+		
 	}
 	
 }

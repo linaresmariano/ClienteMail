@@ -1,5 +1,14 @@
 package usuario;
 
+import calendario.Calendario;
+import contacto.Contacto;
+import directorio.DirectorioUsuario;
+import directorio.Mail;
+import directorio.partesDeMail.Adjunto;
+import estadoUsuario.EstadoUsuario;
+import estrategiaAcceso.EstrategiaAcceso;
+import filtros.Filtro;
+
 public class UsuarioCliente {
 
 	private int nroCelular;
@@ -34,7 +43,7 @@ public class UsuarioCliente {
 		
 	}
 	
-	public void eliminarContacto(Contacto) {
+	public void eliminarContacto(Contacto contacto) {
 		
 	}
 	
