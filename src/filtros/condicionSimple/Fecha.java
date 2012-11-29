@@ -16,16 +16,16 @@ public class Fecha extends Campo {
 	public boolean evaluarEsIgual(Mail m) {
 		
 		return 
-		(m.getEncabezado().getFecha().get(Calendar.YEAR) ==
+		(m.getFecha().get(Calendar.YEAR) ==
 		this.getValor().get(Calendar.YEAR))
 		&&
-		(m.getEncabezado().getFecha().get(Calendar.MONTH) ==
+		(m.getFecha().get(Calendar.MONTH) ==
 		this.getValor().get(Calendar.MONTH))
 		&&
-		(m.getEncabezado().getFecha().get(Calendar.DATE) ==
+		(m.getFecha().get(Calendar.DATE) ==
 		this.getValor().get(Calendar.DATE))
 		&&
-		(m.getEncabezado().getFecha().get(Calendar.HOUR_OF_DAY) ==
+		(m.getFecha().get(Calendar.HOUR_OF_DAY) ==
 		this.getValor().get(Calendar.HOUR_OF_DAY));
 	}
 	
