@@ -31,9 +31,9 @@ public class AccionTest {
 		// Accion a testear
 		MoverACarpeta accion = new MoverACarpeta(destino);
 		
-		this.accion.ejecutarAccion(this.mail);
+		accion.ejecutarAccion(this.mail);
 		verify(this.mail).setEtiqueta(accion.getPathDestino());
-		assertEquals(this.mail.getEtiqueta(), accion.getPathDestino());
+		//assertEquals(this.mail.getEtiqueta(), accion.getPathDestino());
 	}
 	
 	@Test

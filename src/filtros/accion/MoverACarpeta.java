@@ -9,7 +9,7 @@ public class MoverACarpeta extends Accion {
 	private List<String> pathDestino;
 	
 	public MoverACarpeta(List<String> destino) {
-		this.setPathDestino(destino);
+		this.pathDestino = destino;
 	}
 	
 	@Override
