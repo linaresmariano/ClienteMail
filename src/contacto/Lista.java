@@ -1,10 +1,15 @@
 package contacto;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class Lista extends Contacto {
 
-	private List<Contacto> contactos;
+	private List<Contacto> contactos = new ArrayList<Contacto>();
+	
+	public Lista(String nombre) {
+		super(nombre);
+	}
 	
 	@Override
 	public boolean contains(Contacto c) {
@@ -19,8 +24,16 @@ public class Lista extends Contacto {
 		return false;
 	}
 	
+	public void addContacto(Contacto c) {
+		this.getContactos().add(c);
+	}
+	
 	public List<Contacto> getContactos() {
 		return this.contactos;
+	}
+	
+	public String getMail() {
+		return "";
 	}
 
 }

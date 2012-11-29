@@ -1,10 +1,19 @@
 package filtros.condicionSimple;
 
 import directorio.Mail;
+import contacto.Contacto;
 
+/**
+ * Evalua en un mail si el remitente es igual,
+ * contine, o si es distinto al Contato especificado
+ */
 public class Remitente extends Campo {
 	
 	private Contacto valor;
+	
+	public Remitente(Contacto c) {
+		this.valor = c;
+	}
 
 	@Override
 	public boolean evaluarContiene(Mail m) {
