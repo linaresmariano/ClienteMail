@@ -2,10 +2,10 @@ package filtros;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import contacto.*;
 import filtros.condicionSimple.Remitente;
 import directorio.Mail;
 
@@ -13,103 +13,99 @@ public class CampoRemitenteTest {
 
 	// Clase a testear
 	private Remitente campo;
-	
-	// Mock de contacto a filtrar
-	private Contacto contacto;
-	// Mock de contacto que no corresponde
-	private Contacto contX;
-	// Mock de la lista que contiene al contacto
-	private Contacto lista;
-	// Mock de la lista que no contiene al contacto
-	//private Contacto listaX;
+
 	// Mock del mail a testear
 	private Mail mail;
 	
 	@Before
 	public void setUp() {
-		
-		// Mockeando contacto y mail
-		this.contacto = mock(ContactoHoja.class);
-		
-		this.contX = mock(ContactoHoja.class);
-		// Mock lista de mail que contiene al contacto
-		this.lista = mock(Lista.class);
+
 		// Mock del mail a filtrar
 		this.mail = mock(Mail.class);
 		
 		// Clase remitente a testear
-		this.campo = new Remitente(this.contacto);
+		this.campo = new Remitente("valor");
 	}
 
 	@Test
-	public void testEvaluarContiene() {
+	public void testEvaluarContiene() {		
+
 		// Siendo el contacto el remitente del mail
-		when(this.mail.getRemitente()).thenReturn(this.contacto);
-		when(this.contacto.contains(this.contacto)).thenReturn(true);
+		when(this.mail.getRemitente()).thenReturn("valor");
 		assertTrue(this.campo.evaluarContiene(this.mail));
 
-		// Cuando no es el remitente del mail
-		when(this.mail.getRemitente()).thenReturn(this.contX);
-		assertFalse(this.campo.evaluarContiene(this.mail));
-		
-		// Cuando el remitente esta incluido en la lista de mails
-		when(this.lista.contains(this.contacto)).thenReturn(true);
-		when(this.contacto.equals(this.lista)).thenReturn(true);
-		when(this.mail.getRemitente()).thenReturn(this.lista);
+		// Conteniendo el nombre del usuario
+		when(this.mail.getRemitente()).thenReturn("lalavalordas");
 		assertTrue(this.campo.evaluarContiene(this.mail));
 		
-		// Cuando el remitente esta incluido en la lista de mails
-		when(this.lista.contains(this.contacto)).thenReturn(false);
-		when(this.contacto.contains(this.lista)).thenReturn(false);
-		when(this.mail.getRemitente()).thenReturn(this.lista);
+		// Conteniendo al usuario entre otros
+		when(this.mail.getRemitente()).thenReturn("lala valor das");
+		assertTrue(this.campo.evaluarContiene(this.mail));
+		
+		// Conteniendo las letras del nombre del usuario pero no todas juntas
+		when(this.mail.getRemitente()).thenReturn("vadlodr");
+		assertFalse(this.campo.evaluarContiene(this.mail));
+		
+		// Cuando el remitente esta vacio
+		when(this.mail.getRemitente()).thenReturn("");
+		assertFalse(this.campo.evaluarContiene(this.mail));
+		
+		// Cuando no contiene el nombre del usuario
+		when(this.mail.getRemitente()).thenReturn("bcdefghijkmpqstuwxyz");
 		assertFalse(this.campo.evaluarContiene(this.mail));
 	}
 	
 	@Test
 	public void testEvaluarEsIgual() {
-		// Siendo el contacto el remitente del mail
-		when(this.mail.getRemitente()).thenReturn(this.contacto);
-		when(this.contacto.equals(this.contacto)).thenReturn(true);
+		// Conteniendo al remitente exactamente
+		when(this.mail.getRemitente()).thenReturn("valor");
 		assertTrue(this.campo.evaluarEsIgual(this.mail));
 
-		// Cuando no es el remitente del mail
-		when(this.mail.getRemitente()).thenReturn(this.contX);
+		// Conteniendo el nombre del remitente sin espacios
+		when(this.mail.getRemitente()).thenReturn("lalavalordas");
 		assertFalse(this.campo.evaluarEsIgual(this.mail));
 		
-		// Cuando el remitente esta incluido en la lista de mails
-		when(this.lista.equals(this.contacto)).thenReturn(true);
-		when(this.contacto.equals(this.lista)).thenReturn(true);
-		when(this.mail.getRemitente()).thenReturn(this.lista);
-		assertTrue(this.campo.evaluarEsIgual(this.mail));
+		// Conteniendo el nombre del remitente con espacios
+		when(this.mail.getRemitente()).thenReturn("lala valor das");
+		assertFalse(this.campo.evaluarEsIgual(this.mail));
 		
-		// Cuando el remitente esta incluido en la lista de mails
-		when(this.lista.equals(this.contacto)).thenReturn(false);
-		when(this.contacto.equals(this.lista)).thenReturn(false);
-		when(this.mail.getRemitente()).thenReturn(this.lista);
+		// Otro nombre de remitente
+		when(this.mail.getRemitente()).thenReturn("vadlodr");
+		assertFalse(this.campo.evaluarEsIgual(this.mail));
+		
+		// Sin remitente
+		when(this.mail.getRemitente()).thenReturn("");
+		assertFalse(this.campo.evaluarEsIgual(this.mail));
+		
+		// Cuando no contiene ninguna de las letras del remitente
+		when(this.mail.getRemitente()).thenReturn("bcdefghijkmpqstuwxyz");
 		assertFalse(this.campo.evaluarEsIgual(this.mail));
 	}
 	
 	@Test
 	public void testEvaluarEsDistinto() {
-		// Siendo el contacto el remitente del mail
-		when(this.mail.getRemitente()).thenReturn(this.contacto);
-		when(this.contacto.equals(this.contacto)).thenReturn(true);
+		// Conteniendo al remitente exactamente
+		when(this.mail.getRemitente()).thenReturn("valor");
 		assertFalse(this.campo.evaluarEsDistinto(this.mail));
 
-		// Cuando no es el remitente del mail
-		when(this.mail.getRemitente()).thenReturn(this.contX);
+		// Conteniendo el nombre del remitente sin espacios
+		when(this.mail.getRemitente()).thenReturn("lalavalordas");
 		assertTrue(this.campo.evaluarEsDistinto(this.mail));
 		
-		// Cuando el remitente esta incluido en la lista de mails
-		when(this.lista.equals(this.contacto)).thenReturn(true);
-		when(this.contacto.equals(this.lista)).thenReturn(true);
-		when(this.mail.getRemitente()).thenReturn(this.lista);
-		assertFalse(this.campo.evaluarEsDistinto(this.mail));
+		// Conteniendo el nombre del remitente con espacios
+		when(this.mail.getRemitente()).thenReturn("lala valor das");
+		assertTrue(this.campo.evaluarEsDistinto(this.mail));
 		
-		// Cuando el remitente esta incluido en la lista de mails
-		when(this.lista.equals(this.contacto)).thenReturn(false);
-		when(this.contacto.equals(this.lista)).thenReturn(true);
-		when(this.mail.getRemitente()).thenReturn(this.lista);
+		// Otro nombre de remitente
+		when(this.mail.getRemitente()).thenReturn("vadlodr");
+		assertTrue(this.campo.evaluarEsDistinto(this.mail));
+		
+		// Sin remitente
+		when(this.mail.getRemitente()).thenReturn("");
+		assertTrue(this.campo.evaluarEsDistinto(this.mail));
+		
+		// Cuando no contiene ninguna de las letras del remitente
+		when(this.mail.getRemitente()).thenReturn("bcdefghijkmpqstuwxyz");
 		assertTrue(this.campo.evaluarEsDistinto(this.mail));
 	}
 }

@@ -1,7 +1,6 @@
 package filtros.condicionSimple;
 
 import directorio.Mail;
-import contacto.Contacto;
 
 /**
  * Evalua en un mail si el remitente es igual,
@@ -9,15 +8,20 @@ import contacto.Contacto;
  */
 public class Remitente extends Campo {
 	
-	private Contacto valor;
+	private String valor;
 	
-	public Remitente(Contacto c) {
+	// Instanciar un FiltroRemitente con el nombre a filtrar
+	public Remitente(String c) {
 		this.valor = c;
+	}
+	
+	public String getValor() {
+		return this.valor;
 	}
 
 	@Override
 	public boolean evaluarContiene(Mail m) {
-		return m.getRemitente().contains(this.valor);
+		return m.getRemitente().contains(this.getValor());
 	}
 
 	@Override

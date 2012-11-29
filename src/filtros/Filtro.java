@@ -38,10 +38,14 @@ public class Filtro {
 	}
 	
 	// Aplicar el filtro si la evaluacion del mail da true,sino no hacer nada
-	public void aplicar(Mail m) {
-		if(this.evaluar(m)) {
+	public boolean aplicar(Mail m) {
+		boolean retVal = this.evaluar(m);
+		
+		if(retVal) {
 			this.ejecutarAccion(m);
 		}
+		
+		return retVal;
 	}
 	
 	// Retorna un booleano indicando si el filtro es excluyente

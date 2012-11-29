@@ -4,13 +4,10 @@ import java.util.List;
 
 import directorio.partesDeMail.Adjunto;
 import directorio.partesDeMail.Encabezado;
-import contacto.Contacto;
 
 public class Mail extends DirectorioUsuario{
 
 	private List<String> etiqueta;
-	private Contacto remitente;
-	private String asunto;
 	private String cuerpo;
 	private boolean leido;
 	private Adjunto adjunto;
@@ -38,11 +35,11 @@ public class Mail extends DirectorioUsuario{
 	}
 
 	public String getAsunto() {
-		return asunto;
+		return this.getEncabezado().getAsunto();
 	}
 	
-	public Contacto getRemitente() {
-		return this.remitente;
+	public String getRemitente() {
+		return this.getEncabezado().getRemitente();
 	}
 	
 	public boolean estaLeido() {
