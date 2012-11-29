@@ -27,7 +27,7 @@ public class ORTest {
 		this.cond2 = mock(EsDistinto.class);
 				
 		// Condicion compuesta con AND
-		this.condC = new OR(this.cond1, this.cond2);
+		this.condC = new OR();
 				
 		// Mail a evaluar
 		this.mail = mock(Mail.class);
@@ -51,19 +51,19 @@ public class ORTest {
 		this.condC.addCondicion(cond2);
 		
 		when(cond1.evaluar(this.mail)).thenReturn(true);
-		when(cond1.evaluar(this.mail)).thenReturn(true);
+		when(cond2.evaluar(this.mail)).thenReturn(true);
 		assertTrue(this.condC.evaluar(this.mail));
 		
 		when(cond1.evaluar(this.mail)).thenReturn(true);
-		when(cond1.evaluar(this.mail)).thenReturn(false);
+		when(cond2.evaluar(this.mail)).thenReturn(false);
 		assertTrue(this.condC.evaluar(this.mail));
 		
 		when(cond1.evaluar(this.mail)).thenReturn(false);
-		when(cond1.evaluar(this.mail)).thenReturn(true);
+		when(cond2.evaluar(this.mail)).thenReturn(true);
 		assertTrue(this.condC.evaluar(this.mail));
 		
 		when(cond1.evaluar(this.mail)).thenReturn(false);
-		when(cond1.evaluar(this.mail)).thenReturn(false);
+		when(cond2.evaluar(this.mail)).thenReturn(false);
 		assertFalse(this.condC.evaluar(this.mail));
 	}
 

@@ -26,7 +26,7 @@ public class ANDTest {
 		this.cond2 = mock(EsDistinto.class);
 				
 		// Condicion compuesta con AND
-		this.condAND = new AND(this.cond1, this.cond2);
+		this.condAND = new AND();
 				
 		// Mail a evaluar
 		this.mail = mock(Mail.class);
@@ -50,19 +50,19 @@ public class ANDTest {
 		this.condAND.addCondicion(cond2);
 		
 		when(cond1.evaluar(this.mail)).thenReturn(true);
-		when(cond1.evaluar(this.mail)).thenReturn(true);
+		when(cond2.evaluar(this.mail)).thenReturn(true);
 		assertTrue(this.condAND.evaluar(this.mail));
 		
 		when(cond1.evaluar(this.mail)).thenReturn(true);
-		when(cond1.evaluar(this.mail)).thenReturn(false);
+		when(cond2.evaluar(this.mail)).thenReturn(false);
 		assertFalse(this.condAND.evaluar(this.mail));
 		
 		when(cond1.evaluar(this.mail)).thenReturn(false);
-		when(cond1.evaluar(this.mail)).thenReturn(true);
+		when(cond2.evaluar(this.mail)).thenReturn(true);
 		assertFalse(this.condAND.evaluar(this.mail));
 		
 		when(cond1.evaluar(this.mail)).thenReturn(false);
-		when(cond1.evaluar(this.mail)).thenReturn(false);
+		when(cond2.evaluar(this.mail)).thenReturn(false);
 		assertFalse(this.condAND.evaluar(this.mail));
 	}
 

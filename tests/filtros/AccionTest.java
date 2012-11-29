@@ -1,6 +1,5 @@
 package filtros;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.LinkedList;
@@ -13,7 +12,6 @@ import filtros.accion.*;
 
 public class AccionTest {
 
-	private Accion accion;
 	private Mail mail;
 	
 	@Before
@@ -33,7 +31,6 @@ public class AccionTest {
 		
 		accion.ejecutarAccion(this.mail);
 		verify(this.mail).setEtiqueta(accion.getPathDestino());
-		//assertEquals(this.mail.getEtiqueta(), accion.getPathDestino());
 	}
 	
 	@Test
@@ -44,7 +41,6 @@ public class AccionTest {
 		accion.ejecutarAccion(this.mail);
 		
 		verify(this.mail).setEtiqueta(accion.getPathDestino());
-		assertEquals(this.mail.getEtiqueta(), accion.getPathDestino());
 	}
 	
 	@Test
