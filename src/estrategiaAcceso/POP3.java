@@ -1,6 +1,10 @@
 package estrategiaAcceso;
 
+import java.util.LinkedList;
+
+import directorio.Carpeta;
 import directorio.Mail;
+import directorio.partesDeMail.Adjunto;
 
 public class POP3 extends EstrategiaAcceso {
 
@@ -18,7 +22,19 @@ public class POP3 extends EstrategiaAcceso {
 	}
 
 	@Override
-	public AdjuntoMail getAdjunto(Mail mail) {
+	public Adjunto getAdjunto(Mail mail) {
+		
+	}
+
+	@Override
+	public LinkedList<Mail> bajarYRetornarMails() {
+		
+	}
+
+	@Override
+	public void eliminarMail(Mail mail, Carpeta directorio, Server servidor) {
+		
+		directorio.eliminarMail(mail);
 		
 	}
 	
