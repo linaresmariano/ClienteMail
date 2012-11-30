@@ -91,5 +91,15 @@ public class Carpeta extends DirectorioUsuario{
         this.hijos.removeAll(this.hijos);
 	}
 	
+	public void print(){
+		for(int i=0;i<profundidad*2;i++){
+			System.out.print(" ");
+		}
+		System.out.print("+");
+		System.out.println(this.getNombre());
+		for(DirectorioUsuario e:hijos){
+			e.print();
+		}
+	}
 	
 }

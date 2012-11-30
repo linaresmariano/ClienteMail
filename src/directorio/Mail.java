@@ -13,6 +13,21 @@ public class Mail extends DirectorioUsuario{
 	private Adjunto adjunto;
 	private Encabezado encabezado;
 	
+	public void print(){
+		for(int i=0;i<getEtiqueta().size()*2+2;i++){
+			System.out.print(" ");
+		}
+		String mensaje;
+		if(leido){
+			mensaje=" <Leido>";
+		}else{
+			mensaje=" <Sin leer>";
+		}
+		System.out.println("+"+encabezado.getAsunto()+".mail"+mensaje);
+	}
+	
+
+	
 	public List<String> getEtiqueta(){
 		return this.etiqueta;
 	}
