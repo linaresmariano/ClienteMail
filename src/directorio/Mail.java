@@ -26,9 +26,7 @@ public class Mail extends DirectorioUsuario{
 		System.out.println("+"+encabezado.getAsunto()+".mail"+mensaje);
 	}
 	
-	public List<String> getEtiqueta(){
-		return etiqueta;
-	}
+
 	
 	public List<String> getEtiqueta(){
 		return this.etiqueta;
