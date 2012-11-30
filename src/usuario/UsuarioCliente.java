@@ -47,8 +47,9 @@ public class UsuarioCliente {
 		this.estrategia = estrategia;
 		// Los valores por defecto
 		this.directorio = new Carpeta("root");
+		this.directorio.getHijos().add(new Carpeta("bandejaSalida"));
 		this.filtros = new LinkedList<Filtro>();
-		this.contactos = new Lista();
+		this.contactos = new Lista("todos");
 		this.estado = new Activo();
 		// El calendario
 		this.calendario = new Calendario();
@@ -58,7 +59,12 @@ public class UsuarioCliente {
 	}
 	
 	// Deriva el envio del mail al cliente
-	public void enviarMail(Mail mail) { this.cliente.send(mail); }
+	private void enviarMail(Mail mail) throws Exception { 
+		
+		try { this.cliente.send(mail); } 
+		
+		catch (Exception e) { throw new Exception("El mail para: " + mail.getEncabezado().getDestinatario() + " no se ha enviado, quedar‡ en bandejaSalida"); }
+	}
 	
 	// Deriva la eliminacion del mail a la estrategia
 	public void eliminarMail(Mail mail) { this.estrategia.eliminarMail(mail, this.directorio); }
@@ -82,63 +88,85 @@ public class UsuarioCliente {
 		}
 	}
 	
+	// REVISAR ESTE METODO BIEN! Borrar partes comentadas de mas!!!
+	public void enviarMails() {
+		
+		// listaMails son todos los hijos de bandejaSalida
+		List<DirectorioUsuario> listaMails = this.directorio.retornarCarpetaDeNombre("bandejaSalida").getHijos();
+		
+		// Si bandejaSalida no existiera (no se inicializace con el usuario) entonces seria necesario el siguiente condicional
+		//if (listaMails != null) {
+			
+			// Para cada hijo de bandejaSalida se fija si es un Mail, lo envia y luego lo elimina
+			for (DirectorioUsuario unPosibleMail : listaMails) {
+ 
+				if (unPosibleMail.getClass().equals(Mail.class)) {
+					
+					String destinatario = ((Mail) unPosibleMail).getEncabezado().getDestinatario() ;
+					
+					try { 
+						this.enviarMail((Mail) unPosibleMail);
+						System.out.println("El mail para:" + destinatario + " se ha enviado correctamente");
+					}
+					
+					catch (Exception e) { System.out.println("Ha fallado el envio de mails en el mail para: " + destinatario + " no se continuara el proceso"); }
+					
+					this.eliminarMail((Mail) unPosibleMail);
+					System.out.println("El mail para: " + destinatario + " se ha eliminado de bandejaSalida");
+				}
+			}
+	}
+		
+		//else { System.out.println("No existe la carpeta bandejaSalida"); }
+	//}
 	
 	public Mail redactarMail(Contacto contacto, String asunto, String cuerpo) {
 		
+		// Creamos un nuevo mail con etiqueta "bandejaSalida"
 		Mail newMail = new Mail();
 		List<String> etiquetaSalida = new LinkedList<String>();
 		etiquetaSalida.add("bandejaSalida");
 		
+		// Creamos el encabezado
 		Encabezado newEncabezado = new Encabezado();
-		newEncabezado.remitente = this.usuario;
-		newEncabezado.destinatario = contacto;
-		newEncabezado.fecha = Calendar.getInstance();
-		newEncabezado.asunto = asunto;
+		newEncabezado.setRemitente(this.usuario);
+		newEncabezado.setDestinatario(contacto.getMail());
+		newEncabezado.setFecha(Calendar.getInstance());
+		newEncabezado.setAsunto(asunto);
 		
+		// Asignamos valores a los atributos del nuevo mail
+		newMail.setEncabezado(newEncabezado);
 		newMail.setEtiqueta(etiquetaSalida);
+		newMail.setCuerpo(cuerpo);
+		newMail.setLeido(false);
 		
+		// Metemos el mail en donde tiene que ir
+		this.directorio.agregarMail(newMail);
 		
-		private String asunto;
-		private String cuerpo;
-		private boolean leido;
-		private Adjunto adjunto;
-		private Encabezado encabezado;
-		
+		return newMail;
 	}
 	
-	public void adjuntar(Adjunto adjunto, Mail mail) {
+	public Mail redactarMailConAdjunto(Contacto contacto, String asunto, String cuerpo, Adjunto adjunto) {
 		
+		Mail newMail = this.redactarMail(contacto, asunto, cuerpo);
+		this.adjuntar(adjunto, newMail);
+		return newMail;
 	}
 	
-	public void agregarContacto(Contacto contactos) {
-		
-	}
+	public void adjuntar(Adjunto adjunto, Mail mail) { mail.setAdjunto(adjunto); }
 	
-	public void eliminarContacto(Contacto contacto) {
-		
-	}
+	public void agregarContacto(Contacto contacto) { this.contactos.addContacto(contacto); }
 	
-	public void agregarFiltro(Filtro filtros) {
-		
-	}
+	public void eliminarContacto(Contacto contacto) { this.contactos.eliminarContacto(contacto); }
 	
-	public void eliminarFiltro(Filtro filtros) {
-		
-	}
+	public void agregarFiltro(Filtro filtro) { this.filtros.add(filtro); }
 	
+	public void eliminarFiltro(Filtro filtro) { this.filtros.remove(filtro); }
 	
-	//Agregar argumento de antelacion de evento (unidad de tiempo)
-	public void agregarEvento(Evento evento) {
-		
-	}
+	public void agregarEvento(Evento evento) { this.calendario.agregarEvento(evento); }
 	
-	// EliminarEvento hay uno solo, remover en UML (hay para eventoModificador y para eventoRecordatorio)
-	public void eliminarEvento(Evento evento) {
-		
-		this.calendario.eliminarEvento(evento);
-	}
+	public void eliminarEvento(Evento evento) {	this.calendario.eliminarEvento(evento);	}
 
-	
 	// Getters y Setters
 	public Cliente getCliente() { return cliente; }
 

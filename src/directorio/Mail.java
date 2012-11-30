@@ -24,6 +24,10 @@ public class Mail extends DirectorioUsuario{
 	public String getCuerpo(){
 		return cuerpo;
 	}
+	
+	public void setCuerpo(String cuerpo) {
+		this.cuerpo = cuerpo;
+	}
 
 	@Override
 	public boolean suNombreEs(String sombre) {
@@ -54,8 +58,16 @@ public class Mail extends DirectorioUsuario{
 		return this.adjunto;
 	}
 	
+	public void setAdjunto(Adjunto adjunto) {
+		this.adjunto = adjunto;
+	}
+	
 	public Encabezado getEncabezado() {
 		return this.encabezado;
+	}
+	
+	public void setEncabezado(Encabezado encabezado) {
+		this.encabezado = encabezado;
 	}
 
 }
