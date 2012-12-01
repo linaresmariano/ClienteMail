@@ -45,6 +45,7 @@ public class UsuarioCliente {
 		this.password = password;
 		this.cliente = cliente;
 		this.estrategia = estrategia;
+		this.estrategia.setCliente(cliente);
 		// Los valores por defecto
 		this.directorio = new Carpeta("root");
 		this.directorio.getHijos().add(new Carpeta("bandejaSalida"));
@@ -59,9 +60,13 @@ public class UsuarioCliente {
 	}
 	
 	// Deriva el envio del mail al cliente
-	private void enviarMail(Mail mail) throws Exception { 
+	public void enviarMail(Mail mail) throws Exception { 
 		
-		try { this.cliente.send(mail); } 
+		String destinatario = mail.getEncabezado().getDestinatario() ;
+		try { 
+			this.cliente.send(mail);
+			System.out.println("El mail para:" + destinatario + " se ha enviado correctamente");
+		} 
 		
 		catch (Exception e) { throw new Exception("El mail para: " + mail.getEncabezado().getDestinatario() + " no se ha enviado, quedar‡ en bandejaSalida"); }
 	}
@@ -69,7 +74,8 @@ public class UsuarioCliente {
 	// Deriva la eliminacion del mail a la estrategia
 	public void eliminarMail(Mail mail) { this.estrategia.eliminarMail(mail, this.directorio); }
 	
-	// Baja mails segun la estrategia que posea el usuario, les aplica los filtros y los acomoda en su directorio
+	// Baja mails segun la estrategia que posea el usuario, les aplica los filtros y agrega al directorio.
+	// Las acciones de reenvio o aviso se derivan al estado del usuario
 	public void recibirMails() {
 		
 		// Baja mail segun estrategia
@@ -80,45 +86,36 @@ public class UsuarioCliente {
 			for (Filtro unFiltro : this.filtros) {
 				if (unFiltro.aplicar(unMail) && unFiltro.esExcluyente()) { break; }
 			}
-		}
-		
-		// Agrega mails al directorio del usuario
-		for (Mail unMail : mails) {
+			// Se agrega el mail al directorio del usuario
 			this.directorio.agregarMail(unMail);
+			// Se deriva el reenvio o aviso al estado del usuario
+			this.estado.teLlegoMail(unMail, this);
 		}
 	}
 	
-	// REVISAR ESTE METODO BIEN! Borrar partes comentadas de mas!!!
+	// REVISAR ESTE METODO BIEN!
 	public void enviarMails() {
 		
 		// listaMails son todos los hijos de bandejaSalida
 		List<DirectorioUsuario> listaMails = this.directorio.retornarCarpetaDeNombre("bandejaSalida").getHijos();
-		
-		// Si bandejaSalida no existiera (no se inicializace con el usuario) entonces seria necesario el siguiente condicional
-		//if (listaMails != null) {
 			
-			// Para cada hijo de bandejaSalida se fija si es un Mail, lo envia y luego lo elimina
-			for (DirectorioUsuario unPosibleMail : listaMails) {
+		// Para cada hijo de bandejaSalida se fija si es un Mail, lo envia y luego lo elimina
+		for (DirectorioUsuario unPosibleMail : listaMails) {
  
-				if (unPosibleMail.getClass().equals(Mail.class)) {
+			if (unPosibleMail.getClass().equals(Mail.class)) {
 					
-					String destinatario = ((Mail) unPosibleMail).getEncabezado().getDestinatario() ;
+				String destinatario = ((Mail) unPosibleMail).getEncabezado().getDestinatario() ;
 					
-					try { 
-						this.enviarMail((Mail) unPosibleMail);
-						System.out.println("El mail para:" + destinatario + " se ha enviado correctamente");
-					}
-					
-					catch (Exception e) { System.out.println("Ha fallado el envio de mails en el mail para: " + destinatario + " no se continuara el proceso"); }
-					
+				try { 
+					this.enviarMail((Mail) unPosibleMail);
 					this.eliminarMail((Mail) unPosibleMail);
 					System.out.println("El mail para: " + destinatario + " se ha eliminado de bandejaSalida");
 				}
+					
+				catch (Exception e) { System.out.println("Ha fallado el envio de mails en el mail para: " + destinatario + " no se continuara el proceso"); }
 			}
+		}
 	}
-		
-		//else { System.out.println("No existe la carpeta bandejaSalida"); }
-	//}
 	
 	public Mail redactarMail(Contacto contacto, String asunto, String cuerpo) {
 		
@@ -140,10 +137,14 @@ public class UsuarioCliente {
 		newMail.setCuerpo(cuerpo);
 		newMail.setLeido(false);
 		
+		return newMail;
+	}
+	
+	public void redactarYGuardarMail(Contacto contacto, String asunto, String cuerpo) {
+		
+		Mail newMail = this.redactarMail(contacto, asunto, cuerpo);
 		// Metemos el mail en donde tiene que ir
 		this.directorio.agregarMail(newMail);
-		
-		return newMail;
 	}
 	
 	public Mail redactarMailConAdjunto(Contacto contacto, String asunto, String cuerpo, Adjunto adjunto) {

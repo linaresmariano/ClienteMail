@@ -9,6 +9,7 @@ import usuario.UsuarioCliente;
 public class Cliente {
 
 	private Server server;
+
 	private UsuarioCliente usuarioActivo;
 	
 	/**
@@ -33,10 +34,9 @@ public class Cliente {
 		if (this.usuarioActivo == null) { 
 				
 			this.usuarioActivo = new UsuarioCliente(usuario, password, this, estrategia);
-			// ... y descarga los correos segun la <estrategia de acceso> dada para luego guardarlos en el directorio
 			
-			LinkedList<Mail> mails = this.usuarioActivo.getEstrategia().bajarYRetornarMails();
-			for (Mail unMail : mails) { this.usuarioActivo.getDirectorio().agregarMail(unMail); }
+			// ... y descarga los correos segun la <estrategia de acceso> dada para luego guardarlos en el directorio
+			this.usuarioActivo.recibirMails();
 			
 			System.out.println("Login exitoso");
 		}
@@ -44,18 +44,12 @@ public class Cliente {
 		// Si el usuarioActivo existe ...
 		else {
 			// ... y no es el que se intenta loguear
-			if (this.usuarioActivo.getUsuario() != usuario) {
-				
-				System.out.println("Existe otro usuario logueado en el sistema, cierre su cesi—n para loguearse");
-			}
-			// ... si en cambio es el mismo que se intenta loguear de nuevo
-			else {
+			if (this.usuarioActivo.getUsuario() != usuario) { System.out.println("Existe otro usuario logueado en el sistema, cierre su cesi—n para loguearse"); }
 			
-				System.out.println("Ud. ya se encuentra logueado");
-			}
+			// ... si en cambio es el mismo que se intenta loguear de nuevo
+			else { System.out.println("Ud. ya se encuentra logueado"); }
 				
-			return this.usuarioActivo;
-					
+			return this.usuarioActivo;		
 		}	
 	}
 	
@@ -73,5 +67,7 @@ public class Cliente {
 		System.out.println("El usuario: " + this.usuarioActivo.getUsuario() + " ha cerrado cesi—n correctamente");
 		this.usuarioActivo = null;
 	}
+	
+	public Server getServer() { return this.server; }
 	
 }
