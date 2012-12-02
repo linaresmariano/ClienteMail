@@ -4,15 +4,15 @@ public class TiempoAntelacion {
 
 	private int dia;
 	private int mes;
-	private int año;
+	private int anio;
 	private int hora;
 	private int minuto;
 	
-	public TiempoAntelacion(int año,int mes,int dia,int hora,int minuto){
+	public TiempoAntelacion(int anio,int mes,int dia,int hora,int minuto){
 		this.dia=Math.abs(dia);
 		this.hora=Math.abs(hora);
 		this.mes=Math.abs(mes);
-		this.año=Math.abs(año);
+		this.anio=Math.abs(anio);
 		this.minuto=Math.abs(minuto);
 	}
 	
@@ -28,11 +28,11 @@ public class TiempoAntelacion {
 	public void setMes(int mes) {
 		this.mes = mes;
 	}
-	public int getAño() {
-		return año;
+	public int getAnio() {
+		return anio;
 	}
-	public void setAño(int año) {
-		this.año = año;
+	public void setAnio(int anio) {
+		this.anio = anio;
 	}
 	public int getHora() {
 		return hora;

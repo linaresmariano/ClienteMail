@@ -57,7 +57,7 @@ public  abstract class  Periodicidad {
      public Calendar restarAntelacion(Calendar fa,TiempoAntelacion ta){
     	    Calendar faux=(Calendar)fa.clone();
 	     
-    	    faux.add(Calendar.YEAR,-ta.getAño());
+    	    faux.add(Calendar.YEAR,-ta.getAnio());
     	    faux.add(Calendar.MONTH,-ta.getMes());
     	    faux.add(Calendar.DATE,-ta.getDia());
     	    faux.add(Calendar.HOUR,-ta.getHora());
@@ -75,7 +75,7 @@ public  abstract class  Periodicidad {
      public Calendar sumarAntelacion(Calendar fa,TiempoAntelacion ta){
  	    Calendar faux=(Calendar)fa.clone();
 	     
- 	    faux.add(Calendar.YEAR,ta.getAño());
+ 	    faux.add(Calendar.YEAR,ta.getAnio());
  	    faux.add(Calendar.MONTH,ta.getMes());
  	    faux.add(Calendar.DATE,ta.getDia());
  	    faux.add(Calendar.HOUR,ta.getHora());

@@ -2,43 +2,37 @@ package estrategiaAcceso;
 
 import java.util.LinkedList;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Redefinable;
-
+import red.Red;
+import server.Server;
 import directorio.Carpeta;
-import directorio.DirectorioUsuario;
 import directorio.Mail;
-import directorio.partesDeMail.Adjunto;
-
-/* 	TODOS LOS METODOS DE LA CLASE DEPENDEN DE SI VA A SER LA RED O EL CLIENTE 
- * EL QUE FUNCIONE COMO INTERMEDIARIO DE LA BAJADA DE MAILS -----ARREGLAR------*/
 
 public class POP3 extends EstrategiaAcceso {
 
 	private boolean dejarCopia;
 
 	@Override
-	public String getCuerpo(Mail mail) { return mail.getCuerpo(); }
-
-	@Override
-	public Adjunto getAdjunto(Mail mail) { return mail.getAdjunto(); }
-
-	// ARREGALR************************
-	@Override
-	public LinkedList<Mail> bajarYRetornarMails(String usuario) { 
+	public String getCuerpo(Server servidor, String usuario, Mail mail) {
 		
-		LinkedList<Mail> listaMails = Red.getMails(usuario);
-		for (Mail unMail : listaMails)
-		
+		return mail.getCuerpo();
 	}
 
 	@Override
-	public void eliminarMail(Mail mail, Carpeta directorio) {
+	public LinkedList<Mail> bajarYRetornarMails(Server servidor, String usuario) { 
 		
-		if (this.dejarCopia) { directorio.eliminarMail(mail); }
-		else { 
-			this.getCliente().getServer().eliminarMail(mail);
-			directorio.eliminarMail(mail);
-			// Red.eliminarMail(mail, this.getCliente().getServer());
+		if (this.dejarCopia) { return Red.getMailsTipoPOP3(servidor, usuario); }
+		else {
+			
+			LinkedList<Mail> mails = Red.getMailsTipoPOP3(servidor, usuario);
+			
+			for (Mail unMail : mails) { Red.eliminarMail(servidor, usuario, unMail.getIndice()); }
+			return mails;
 		}
+	}
+	
+	@Override
+	public void eliminarMail(Mail mail, Server servidor, String usuario, Carpeta directorio) {
+		 
+		directorio.eliminarMail(mail);
 	}
 }

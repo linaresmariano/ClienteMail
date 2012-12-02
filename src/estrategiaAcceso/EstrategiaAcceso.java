@@ -2,25 +2,22 @@ package estrategiaAcceso;
 
 import java.util.LinkedList;
 
-import cliente.Cliente;
-
+import red.Red;
+import server.Server;
 import directorio.Carpeta;
 import directorio.Mail;
 import directorio.partesDeMail.Adjunto;
 
 public abstract class EstrategiaAcceso {
 	
-	private Cliente cliente;
-
-	public abstract String getCuerpo(Mail mail);
+	public abstract String getCuerpo(Server servidor, String usuario, Mail mail);
 	
-	public abstract Adjunto getAdjunto(Mail mail);
+	public Adjunto getAdjunto(Server servidor, String usuario, int indiceMail) { 
+		
+		return Red.getAdjuntoMail(servidor, usuario, indiceMail); 	
+	}
 
-	public abstract LinkedList<Mail> bajarYRetornarMails(String usuario);
+	public abstract LinkedList<Mail> bajarYRetornarMails(Server servidor, String usuario);
 
-	public abstract void eliminarMail(Mail mail, Carpeta directorio);
-
-	public Cliente getCliente() { return cliente; }
-	
-	public void setCliente(Cliente cliente) { this.cliente = cliente; }
+	public abstract void eliminarMail(Mail mail, Server servidor, String usuario, Carpeta directorio);
 }

@@ -13,6 +13,7 @@ public class Mail extends DirectorioUsuario{
 	private boolean leido;
 	private Adjunto adjunto;
 	private Encabezado encabezado;
+	private int indice;
 	
 	public void print(){
 		for(int i=0;i<getEtiqueta().size()*2+2;i++){
@@ -27,7 +28,13 @@ public class Mail extends DirectorioUsuario{
 		System.out.println("+"+encabezado.getAsunto()+".mail"+mensaje);
 	}
 	
+	public int getIndice() {
+		return indice;
+	}
 
+	public void setIndice(int indice) {
+		this.indice = indice;
+	}
 	
 	public List<String> getEtiqueta(){
 		return this.etiqueta;

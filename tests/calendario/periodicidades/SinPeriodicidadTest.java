@@ -27,7 +27,7 @@ public class SinPeriodicidadTest {
 		tiempoAnt=mock(TiempoAntelacion.class);
 		
 		//mockeando tiempoAnt
-		when(tiempoAnt.getAño()).thenReturn(0);
+		when(tiempoAnt.getAnio()).thenReturn(0);
 		when(tiempoAnt.getMes()).thenReturn(0);
 		when(tiempoAnt.getDia()).thenReturn(0);
 		when(tiempoAnt.getHora()).thenReturn(0);

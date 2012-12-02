@@ -23,7 +23,7 @@ public class SemanalTest {
 		fechaFin=Calendar.getInstance();
 		fechaAct=Calendar.getInstance();
 		tiempoAnt=mock(TiempoAntelacion.class);
-		when(tiempoAnt.getAño()).thenReturn(0);
+		when(tiempoAnt.getAnio()).thenReturn(0);
 		when(tiempoAnt.getMes()).thenReturn(0);
 		when(tiempoAnt.getDia()).thenReturn(0);
 		when(tiempoAnt.getHora()).thenReturn(0);

@@ -23,7 +23,7 @@ public class MensualTest {
 		fechaFin=Calendar.getInstance();
 		fechaAct=Calendar.getInstance();
 		tiempoAnt=mock(TiempoAntelacion.class);
-		when(tiempoAnt.getAño()).thenReturn(0);
+		when(tiempoAnt.getAnio()).thenReturn(0);
 		when(tiempoAnt.getMes()).thenReturn(0);
 		when(tiempoAnt.getDia()).thenReturn(0);
 		when(tiempoAnt.getHora()).thenReturn(0);
@@ -89,7 +89,7 @@ public class MensualTest {
 		assertTrue(mensual.tengoQueEjecutarEvento(fechaAct, fechaIni,fechaFin,tiempoAnt));
 		
 		//avisa dos a�os antes
-		when(tiempoAnt.getAño()).thenReturn(2);
+		when(tiempoAnt.getAnio()).thenReturn(2);
 		assertTrue(mensual.tengoQueEjecutarEvento(fechaAct, fechaIni,fechaFin,tiempoAnt));
 		
 		

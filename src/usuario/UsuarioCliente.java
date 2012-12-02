@@ -7,10 +7,7 @@ import java.util.List;
 import cliente.Cliente;
 
 import calendario.Calendario;
-import calendario.estrategiasRecordatorias.EstrategiaRecordatoria;
 import calendario.eventos.Evento;
-import calendario.periodicidades.Periodicidad;
-import calendario.periodicidades.TiempoAntelacion;
 import contacto.Contacto;
 import contacto.Lista;
 import directorio.Carpeta;
@@ -45,7 +42,6 @@ public class UsuarioCliente {
 		this.password = password;
 		this.cliente = cliente;
 		this.estrategia = estrategia;
-		this.estrategia.setCliente(cliente);
 		// Los valores por defecto
 		this.directorio = new Carpeta("root");
 		this.directorio.getHijos().add(new Carpeta("bandejaSalida"));
@@ -72,14 +68,17 @@ public class UsuarioCliente {
 	}
 	
 	// Deriva la eliminacion del mail a la estrategia
-	public void eliminarMail(Mail mail) { this.estrategia.eliminarMail(mail, this.directorio); }
+	public void eliminarMail(Mail mail) { 
+		
+		this.estrategia.eliminarMail(mail, this.getCliente().getServer(), this.getUsuario(), this.getDirectorio()); 	
+	}
 	
 	// Baja mails segun la estrategia que posea el usuario, les aplica los filtros y agrega al directorio.
 	// Las acciones de reenvio o aviso se derivan al estado del usuario
 	public void recibirMails() {
 		
 		// Baja mail segun estrategia
-		LinkedList<Mail> mails = this.estrategia.bajarYRetornarMails();
+		LinkedList<Mail> mails = this.estrategia.bajarYRetornarMails(this.getCliente().getServer(), this.usuario);
 		
 		// Recorre mails aplicando la lista de filtros
 		for (Mail unMail : mails) {
@@ -152,6 +151,16 @@ public class UsuarioCliente {
 		Mail newMail = this.redactarMail(contacto, asunto, cuerpo);
 		this.adjuntar(adjunto, newMail);
 		return newMail;
+	}
+	
+	public String getCuerpoMail(Mail mail) {
+		
+		return this.getEstrategia().getCuerpo(this.getCliente().getServer(), this.usuario, mail);
+	}
+	
+	public Adjunto getAdjuntoMail(Mail mail) {
+		
+		return this.getEstrategia().getAdjunto(this.getCliente().getServer(), this.usuario, mail.getIndice());
 	}
 	
 	public void adjuntar(Adjunto adjunto, Mail mail) { mail.setAdjunto(adjunto); }
