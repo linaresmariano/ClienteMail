@@ -25,7 +25,7 @@ public class PeriodicidadTest {
 		fechaFin=Calendar.getInstance();
 		fechaAct=Calendar.getInstance();
 		tiempoAnt=mock(TiempoAntelacion.class);
-		when(tiempoAnt.getAño()).thenReturn(0);
+		when(tiempoAnt.getAÃ±o()).thenReturn(0);
 		when(tiempoAnt.getMes()).thenReturn(0);
 		when(tiempoAnt.getDia()).thenReturn(0);
 		when(tiempoAnt.getHora()).thenReturn(0);
@@ -37,7 +37,7 @@ public class PeriodicidadTest {
 		fechaAct.set(2012, 7, 21, 15, 35);
 		
 		//Suma una hora,12 dias y 5 min
-		when(tiempoAnt.getAño()).thenReturn(7);
+		when(tiempoAnt.getAÃ±o()).thenReturn(7);
 		when(tiempoAnt.getDia()).thenReturn(12);
 		when(tiempoAnt.getMinuto()).thenReturn(5);
 		
@@ -54,7 +54,7 @@ public class PeriodicidadTest {
 		fechaAct.set(2011, 4, 21, 17, 45);
 		
 		
-		when(tiempoAnt.getAño()).thenReturn(2);
+		when(tiempoAnt.getAÃ±o()).thenReturn(2);
 		when(tiempoAnt.getDia()).thenReturn(36);
 		when(tiempoAnt.getMinuto()).thenReturn(5);
 		when(tiempoAnt.getHora()).thenReturn(2);

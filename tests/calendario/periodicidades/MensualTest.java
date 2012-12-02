@@ -23,7 +23,7 @@ public class MensualTest {
 		fechaFin=Calendar.getInstance();
 		fechaAct=Calendar.getInstance();
 		tiempoAnt=mock(TiempoAntelacion.class);
-		when(tiempoAnt.getAño()).thenReturn(0);
+		when(tiempoAnt.getAÃ±o()).thenReturn(0);
 		when(tiempoAnt.getMes()).thenReturn(0);
 		when(tiempoAnt.getDia()).thenReturn(0);
 		when(tiempoAnt.getHora()).thenReturn(0);
@@ -88,8 +88,8 @@ public class MensualTest {
 		
 		assertTrue(mensual.tengoQueEjecutarEvento(fechaAct, fechaIni,fechaFin,tiempoAnt));
 		
-		//avisa dos años antes
-		when(tiempoAnt.getAño()).thenReturn(2);
+		//avisa dos aï¿½os antes
+		when(tiempoAnt.getAÃ±o()).thenReturn(2);
 		assertTrue(mensual.tengoQueEjecutarEvento(fechaAct, fechaIni,fechaFin,tiempoAnt));
 		
 		
@@ -117,7 +117,7 @@ public class MensualTest {
 		//es 26 del siguiente mes y esta entre inicio y fin
 		fechaAct.set(2011, 6, 26, 15, 5);
 		assertTrue(mensual.tengoQueEjecutarEvento(fechaAct, fechaIni,fechaFin));
-		//es 26 del siguiente mes y año  y esta entre inicio y fin
+		//es 26 del siguiente mes y aï¿½o  y esta entre inicio y fin
 		fechaAct.set(2012, 6, 26, 15, 5);
 		assertTrue(mensual.tengoQueEjecutarEvento(fechaAct, fechaIni,fechaFin));
 		

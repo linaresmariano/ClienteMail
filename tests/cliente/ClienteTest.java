@@ -10,21 +10,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import servidor.Servidor;
+import server.Server;
 import usuario.UsuarioCliente;
 
 import directorio.Carpeta;
 import directorio.Mail;
-
+import server.Server;
 public class ClienteTest {
 
 	LinkedList<UsuarioCliente> usuarios;
 	@Mock UsuarioCliente usuarioMock1,usuarioMock2;
-	@Mock Servidor servidorMock;
+	@Mock Server servidorMock;
 	
 	@Before
 	public void setUp(){
-		servidorMock=mock(Servidor.class);
+		servidorMock=mock(Server.class);
 		usuarioMock1=mock(UsuarioCliente.class);
 		usuarioMock2=mock(UsuarioCliente.class);
 		usuarios=new LinkedList<UsuarioCliente>();

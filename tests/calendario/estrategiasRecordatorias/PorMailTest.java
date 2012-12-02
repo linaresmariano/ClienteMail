@@ -2,7 +2,7 @@ package calendario.estrategiasRecordatorias;
 
 import org.junit.Test;
 
-import cliente.Servidor;
+import server.Server;
 import directorio.Mail;
 import usuario.UsuarioCliente;
 import static org.mockito.Mockito.*;
@@ -13,7 +13,7 @@ public class PorMailTest {
 	public void envioRecordatorio(){
 		UsuarioCliente usuario=mock(UsuarioCliente.class);
 		when(usuario.getUsuario()).thenReturn("ejemplo");
-		Servidor servidor=mock(Servidor.class);
+		Server servidor=mock(Server.class);
 		when(servidor.getDominio()).thenReturn("gmail.com");
 		when(usuario.getServidor()).thenReturn(servidor);
 		

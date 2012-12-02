@@ -6,6 +6,9 @@ import directorio.Mail;
 import estrategiaAcceso.EstrategiaAcceso;
 import usuario.UsuarioCliente;
 
+import server.Server;
+import exceptions.*;
+
 public class Cliente {
 
 	private Server server;
@@ -28,7 +31,8 @@ public class Cliente {
 			this.server.login(usuario, password);	
 		}
 		
-		catch (InvalidUserOrPass e) { System.out.println("Usuario o Password Inv‡lido");}
+		catch (InvalidUserOrPass e) { System.out.println("Usuario o Password Invï¿½lido");}
+		catch (AlreadyLogged e) { System.out.println("Ya has iniciado sesiÃ³n");}
 			
 		// Si no hay usuarioActivo, lo crea.
 		if (this.usuarioActivo == null) { 
@@ -44,7 +48,7 @@ public class Cliente {
 		// Si el usuarioActivo existe ...
 		else {
 			// ... y no es el que se intenta loguear
-			if (this.usuarioActivo.getUsuario() != usuario) { System.out.println("Existe otro usuario logueado en el sistema, cierre su cesi—n para loguearse"); }
+			if (this.usuarioActivo.getUsuario() != usuario) { System.out.println("Existe otro usuario logueado en el sistema, cierre su cesiï¿½n para loguearse"); }
 			
 			// ... si en cambio es el mismo que se intenta loguear de nuevo
 			else { System.out.println("Ud. ya se encuentra logueado"); }
@@ -64,7 +68,7 @@ public class Cliente {
 	// Desloguearse implica desvincular al usuario del cliente localmente
 	public void logout() {
 		
-		System.out.println("El usuario: " + this.usuarioActivo.getUsuario() + " ha cerrado cesi—n correctamente");
+		System.out.println("El usuario: " + this.usuarioActivo.getUsuario() + " ha cerrado cesiï¿½n correctamente");
 		this.usuarioActivo = null;
 	}
 	
