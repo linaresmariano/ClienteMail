@@ -26,4 +26,7 @@ public class IMAP extends EstrategiaAcceso {
 		Red.eliminarMail(servidor, usuario, mail.getIndice());
 		directorio.eliminarMail(mail);
 	}
+
+	@Override
+	public void send(Mail mail, Server server) { Red.sendPOP3(mail, server); }
 }

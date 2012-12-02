@@ -1,11 +1,11 @@
 package red;
 
-import java.util.Calendar;
 import java.util.LinkedList;
 
 import directorio.Mail;
 import directorio.partesDeMail.Adjunto;
 import directorio.partesDeMail.Encabezado;
+import server.AdjuntoServer;
 import server.MailServer;
 import server.Server;
 
@@ -35,26 +35,23 @@ public class Red {
 		return mailsTipoCliente;
 	}
 
-	public static void send(Mail mail, Server server) {
+	// Los dos metodos a continuacion son iguales en implementacion porque el servidor no soporta carpetas al momento.
 	
+	public static void sendPOP3(Mail mail, Server server) {	server.send(convertirMailClienteAServer(mail)); }
 		
+	public static void sendIMAP(Mail mail, Server server) { server.send(convertirMailClienteAServer(mail)); }
+
+	public static String getCuerpoMail(Server servidor, String usuario, int indice) { return servidor.getMail(usuario, indice).getCuerpo(); }
+
+	public static Adjunto getAdjuntoMail(Server servidor, String usuario, int indice) {
 		
+		Adjunto adjuntoCliente =  new Adjunto(servidor.getMail(usuario, indice).getAdjunto().getNombre());
+		adjuntoCliente.setArchivo(servidor.getMail(usuario, indice).getAdjunto().getArchivo());
+		
+		return adjuntoCliente;
 	}
 
-	public static String getCuerpoMail(Server servidor, String usuario, int indice) {
-		
-		return null;
-	}
-
-	public static Adjunto getAdjuntoMail(Server servidor, String usuario, int indiceMail) {
-		
-		return null;
-	}
-
-	public static void eliminarMail(Server servidor, String usuario, int indice) {
-		
-		
-	}
+	public static void eliminarMail(Server servidor, String usuario, int indice) { servidor.borrarMail(usuario, indice); }
 	
 	private static Mail convertirMailServerAClientePOP3(MailServer unMailTipoServer) {
 		
@@ -62,7 +59,7 @@ public class Red {
 		Encabezado encabezado = new Encabezado();
 		encabezado.setAsunto(unMailTipoServer.getAsunto());
 		encabezado.setDestinatario(unMailTipoServer.getDestinatario());
-		encabezado.setFecha(Calendar.getInstance());
+		encabezado.setFecha(unMailTipoServer.getFecha());
 		encabezado.setRemitente(unMailTipoServer.getRemitente());
 		
 		// Mail
@@ -83,7 +80,7 @@ public class Red {
 		Encabezado encabezado = new Encabezado();
 		encabezado.setAsunto(unMailTipoServer.getAsunto());
 		encabezado.setDestinatario(unMailTipoServer.getDestinatario());
-		encabezado.setFecha(Calendar.getInstance());
+		encabezado.setFecha(unMailTipoServer.getFecha());
 		encabezado.setRemitente(unMailTipoServer.getRemitente());
 				
 		// Mail
@@ -94,6 +91,23 @@ public class Red {
 		newMail.setLeido(unMailTipoServer.isLeido());
 		newMail.setEtiqueta(unMailTipoServer.getEtiqueta());
 				
+		return newMail;
+	}
+	
+	private static MailServer convertirMailClienteAServer(Mail unMailTipoCliente) {
+		
+		// Adjunto
+		AdjuntoServer adjuntoServer = new AdjuntoServer(unMailTipoCliente.getAdjunto().getNombre(), unMailTipoCliente.getAdjunto().getArchivo());
+		
+		// Mail
+		MailServer newMail = new MailServer(unMailTipoCliente.getEncabezado().getDestinatario(), unMailTipoCliente.getCuerpo());
+		newMail.setAsunto(unMailTipoCliente.getAsunto());
+		newMail.setEtiqueta(unMailTipoCliente.getEtiqueta());
+		newMail.setFecha(unMailTipoCliente.getFecha());
+		newMail.setRemitente(unMailTipoCliente.getRemitente());
+		newMail.setAdjunto(adjuntoServer);
+		newMail.setLeido(false);
+		
 		return newMail;
 	}
 }

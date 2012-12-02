@@ -35,4 +35,7 @@ public class POP3 extends EstrategiaAcceso {
 		 
 		directorio.eliminarMail(mail);
 	}
+
+	@Override
+	public void send(Mail mail, Server server) { Red.sendPOP3(mail, server); }
 }

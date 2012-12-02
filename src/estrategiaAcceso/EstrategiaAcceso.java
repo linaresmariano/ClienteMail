@@ -20,4 +20,6 @@ public abstract class EstrategiaAcceso {
 	public abstract LinkedList<Mail> bajarYRetornarMails(Server servidor, String usuario);
 
 	public abstract void eliminarMail(Mail mail, Server servidor, String usuario, Carpeta directorio);
+
+	public abstract void send(Mail mail, Server server);
 }

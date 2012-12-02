@@ -61,6 +61,9 @@ public class UsuarioCliente {
 		String destinatario = mail.getEncabezado().getDestinatario() ;
 		try { 
 			this.cliente.send(mail);
+			LinkedList<String> nuevoPath = new LinkedList<String>();
+			nuevoPath.add("enviados");
+			this.directorio.moverA(mail, nuevoPath);
 			System.out.println("El mail para:" + destinatario + " se ha enviado correctamente");
 		} 
 		
@@ -96,7 +99,7 @@ public class UsuarioCliente {
 	public void enviarMails() {
 		
 		// listaMails son todos los hijos de bandejaSalida
-		List<DirectorioUsuario> listaMails = this.directorio.retornarCarpetaDeNombre("bandejaSalida").getHijos();
+		List<DirectorioUsuario> listaMails = this.directorio.retornarCarpetaDeNombre("borradores").getHijos();
 			
 		// Para cada hijo de bandejaSalida se fija si es un Mail, lo envia y luego lo elimina
 		for (DirectorioUsuario unPosibleMail : listaMails) {
@@ -121,7 +124,7 @@ public class UsuarioCliente {
 		// Creamos un nuevo mail con etiqueta "bandejaSalida"
 		Mail newMail = new Mail();
 		List<String> etiquetaSalida = new LinkedList<String>();
-		etiquetaSalida.add("bandejaSalida");
+		etiquetaSalida.add("borradores");
 		
 		// Creamos el encabezado
 		Encabezado newEncabezado = new Encabezado();
@@ -135,15 +138,11 @@ public class UsuarioCliente {
 		newMail.setEtiqueta(etiquetaSalida);
 		newMail.setCuerpo(cuerpo);
 		newMail.setLeido(false);
+	
+		// Em mail queda en carpeta borradores, hasta que es enviado
+		this.directorio.agregarMail(newMail);
 		
 		return newMail;
-	}
-	
-	public void redactarYGuardarMail(Contacto contacto, String asunto, String cuerpo) {
-		
-		Mail newMail = this.redactarMail(contacto, asunto, cuerpo);
-		// Metemos el mail en donde tiene que ir
-		this.directorio.agregarMail(newMail);
 	}
 	
 	public Mail redactarMailConAdjunto(Contacto contacto, String asunto, String cuerpo, Adjunto adjunto) {

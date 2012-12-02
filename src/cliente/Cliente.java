@@ -4,7 +4,6 @@ import directorio.Mail;
 import estrategiaAcceso.EstrategiaAcceso;
 import usuario.UsuarioCliente;
 
-import red.Red;
 import server.Server;
 import exceptions.*;
 
@@ -59,7 +58,7 @@ public class Cliente {
 	// Utiliza la "Red" para enviar el mail al servidor especificado
 	public void send(Mail mail)  throws Exception {
 	
-		try { Red.send(mail, this.server); } 
+		try { this.usuarioActivo.getEstrategia().send(mail, this.server); } 
 		
 		catch (Exception e) { throw new Exception("No se ha podido enviar el mail"); }
 	}
