@@ -91,5 +91,41 @@ public class Carpeta extends DirectorioUsuario{
         this.hijos.removeAll(this.hijos);
 	}
 	
+	public void print(){
+		for(int i=0;i<profundidad*2;i++){
+			System.out.print(" ");
+		}
+		System.out.print("+");
+		System.out.println(this.getNombre());
+		for(DirectorioUsuario e:hijos){
+			e.print();
+		}
+	}
+	
+	public void eliminarMail(Mail mail){
+           if(mail.getEtiqueta().size()==profundidad){
+
+                  hijos.remove(mail);
+          }
+          else{
+                  retornarCarpetaDeNombre(mail.getEtiqueta().get(profundidad))
+                         .eliminarMail(mail);
+         }
+
+       }
+
+
+      //destino se recomienda que sea una LinkedList,
+      //ademas despues de utilizar este metodo
+     //destino no se debe utilizar,porque cambiaria
+     //la etiqueta del mail
+     public void moverA(Mail mail,List<String> destino){
+
+        this.eliminarMail(mail);
+
+        //agregando el nuevo destino
+        mail.setEtiqueta(destino);
+        this.agregarMail(mail);
+     }
 	
 }

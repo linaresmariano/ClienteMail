@@ -14,6 +14,21 @@ public class Mail extends DirectorioUsuario{
 	private Adjunto adjunto;
 	private Encabezado encabezado;
 	
+	public void print(){
+		for(int i=0;i<getEtiqueta().size()*2+2;i++){
+			System.out.print(" ");
+		}
+		String mensaje;
+		if(leido){
+			mensaje=" <Leido>";
+		}else{
+			mensaje=" <Sin leer>";
+		}
+		System.out.println("+"+encabezado.getAsunto()+".mail"+mensaje);
+	}
+	
+
+	
 	public List<String> getEtiqueta(){
 		return this.etiqueta;
 	}
@@ -24,6 +39,10 @@ public class Mail extends DirectorioUsuario{
 	
 	public String getCuerpo(){
 		return cuerpo;
+	}
+	
+	public void setCuerpo(String cuerpo) {
+		this.cuerpo = cuerpo;
 	}
 
 	@Override
@@ -55,12 +74,20 @@ public class Mail extends DirectorioUsuario{
 		return this.adjunto;
 	}
 	
+	public void setAdjunto(Adjunto adjunto) {
+		this.adjunto = adjunto;
+	}
+	
 	public Encabezado getEncabezado() {
 		return this.encabezado;
 	}
-	
+
 	public Calendar getFecha() {
 		return this.getEncabezado().getFecha();
+	}
+	
+	public void setEncabezado(Encabezado encabezado) {
+		this.encabezado = encabezado;
 	}
 
 }

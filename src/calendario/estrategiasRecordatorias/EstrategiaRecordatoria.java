@@ -26,7 +26,7 @@ public abstract class EstrategiaRecordatoria {
      *logica de envio recordatorio por email
      */
 	public void recordarPorMail(){
-		String correo=usuario.getUsuario() +"@"+ usuario.getServidor().getDominio();
+		String correo=usuario.getUsuario();
 		Encabezado encabezado=new Encabezado();
 		encabezado.setRemitente(correo);
 		encabezado.setDestinatario(correo);
@@ -34,7 +34,8 @@ public abstract class EstrategiaRecordatoria {
 		Mail mail=new Mail();
 		mail.setCuerpo(mensaje);
 		mail.setEncabezado(encabezado);
-		usuario.enviarMail(mail);
+		try { usuario.enviarMail(mail); } 
+		catch (Exception e) { System.out.println("No se pudo enviar recordatorio por mail"); }
 	}
 	
 	/**
