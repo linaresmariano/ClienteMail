@@ -16,7 +16,7 @@ public class Mail extends DirectorioUsuario{
 	private int indice;
 	
 	public void print(){
-		for(int i=0;i<getEtiqueta().size()*2+2;i++){
+		for(int i=0;i<(getEtiqueta().size()+1)*2;i++){
 			System.out.print(" ");
 		}
 		String mensaje;
