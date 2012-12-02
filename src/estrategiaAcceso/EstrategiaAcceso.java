@@ -16,7 +16,7 @@ public abstract class EstrategiaAcceso {
 	
 	public abstract Adjunto getAdjunto(Mail mail);
 
-	public abstract LinkedList<Mail> bajarYRetornarMails();
+	public abstract LinkedList<Mail> bajarYRetornarMails(String usuario);
 
 	public abstract void eliminarMail(Mail mail, Carpeta directorio);
 

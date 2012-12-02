@@ -2,6 +2,8 @@ package estrategiaAcceso;
 
 import java.util.LinkedList;
 
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Redefinable;
+
 import directorio.Carpeta;
 import directorio.DirectorioUsuario;
 import directorio.Mail;
@@ -20,12 +22,12 @@ public class POP3 extends EstrategiaAcceso {
 	@Override
 	public Adjunto getAdjunto(Mail mail) { return mail.getAdjunto(); }
 
+	// ARREGALR************************
 	@Override
-	public LinkedList<Mail> bajarYRetornarMails() {
-
-		LinkedList<Mail> listaMails = new LinkedList<Mail>();
+	public LinkedList<Mail> bajarYRetornarMails(String usuario) { 
 		
-		return listaMails;
+		LinkedList<Mail> listaMails = Red.getMails(usuario);
+		for (Mail unMail : listaMails)
 		
 	}
 

@@ -20,13 +20,11 @@ public class IMAP extends EstrategiaAcceso {
 	@Override
 	public Adjunto getAdjunto(Mail mail) { return this.getCliente().getServer().getAdjunto(mail); }
 
+	
+	// POR AHORA IMAP baja todo! y borra los archivos asjuntos y el cuerpoo del mail. :)
+	// Deberia ser al reves, que pop3 
 	@Override
-	public LinkedList<Mail> bajarYRetornarMails() {
-		
-		LinkedList<Mail> listaMailsCliente = new LinkedList<Mail>();
-		LinkedList<Mail> listaMailServidor = Red.getMails();
-		return listaMails;
-	}
+	public LinkedList<Mail> bajarYRetornarMails(String usuario) { return Red.getMails(usuario); }
 
 	@Override
 	public void eliminarMail(Mail mail, Carpeta directorio) {
