@@ -27,7 +27,7 @@ public class SinPeriodicidadTest {
 		tiempoAnt=mock(TiempoAntelacion.class);
 		
 		//mockeando tiempoAnt
-		when(tiempoAnt.getAño()).thenReturn(0);
+		when(tiempoAnt.getAÃ±o()).thenReturn(0);
 		when(tiempoAnt.getMes()).thenReturn(0);
 		when(tiempoAnt.getDia()).thenReturn(0);
 		when(tiempoAnt.getHora()).thenReturn(0);
@@ -103,10 +103,10 @@ public class SinPeriodicidadTest {
 		fechaAct.set(2012, 3, 5, 21, 15);
 		fechaIni.set(2012, 4, 5, 23, 20);
 		
-		//solo chequea año,mes y dia..
+		//solo chequea aï¿½o,mes y dia..
 		assertFalse(sinPeriodicidad.chequearSegunPeriodicidad(fechaAct,fechaIni,tiempoAnt));
 	 
-		//solo chequea año,mes y dia..
+		//solo chequea aï¿½o,mes y dia..
 		fechaAct.set(2012, 4, 4, 21, 15);
 		assertFalse(sinPeriodicidad.chequearSegunPeriodicidad(fechaAct,fechaIni,tiempoAnt));
 	

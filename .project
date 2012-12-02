@@ -3,6 +3,7 @@
 	<name>ClienteMailTP</name>
 	<comment></comment>
 	<projects>
+		<project>ServerMail</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

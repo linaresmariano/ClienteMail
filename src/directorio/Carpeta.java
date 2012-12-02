@@ -102,4 +102,30 @@ public class Carpeta extends DirectorioUsuario{
 		}
 	}
 	
+	public void eliminarMail(Mail mail){
+           if(mail.getEtiqueta().size()==profundidad){
+
+                  hijos.remove(mail);
+          }
+          else{
+                  retornarCarpetaDeNombre(mail.getEtiqueta().get(profundidad))
+                         .eliminarMail(mail);
+         }
+
+       }
+
+
+      //destino se recomienda que sea una LinkedList,
+      //ademas despues de utilizar este metodo
+     //destino no se debe utilizar,porque cambiaria
+     //la etiqueta del mail
+     public void moverA(Mail mail,List<String> destino){
+
+        this.eliminarMail(mail);
+
+        //agregando el nuevo destino
+        mail.setEtiqueta(destino);
+        this.agregarMail(mail);
+     }
+	
 }

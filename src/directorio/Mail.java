@@ -1,5 +1,6 @@
 package directorio;
 
+import java.util.Calendar;
 import java.util.List;
 
 import directorio.partesDeMail.Adjunto;
@@ -79,6 +80,10 @@ public class Mail extends DirectorioUsuario{
 	
 	public Encabezado getEncabezado() {
 		return this.encabezado;
+	}
+
+	public Calendar getFecha() {
+		return this.getEncabezado().getFecha();
 	}
 	
 	public void setEncabezado(Encabezado encabezado) {

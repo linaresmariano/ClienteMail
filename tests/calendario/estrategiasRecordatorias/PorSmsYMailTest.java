@@ -1,7 +1,7 @@
 package calendario.estrategiasRecordatorias;
 
 import org.junit.Test;
-import cliente.Servidor;
+import server.Server;
 import calendario.Sms;
 import directorio.Mail;
 import usuario.UsuarioCliente;
@@ -15,7 +15,7 @@ public class PorSmsYMailTest {
 		//creando el contexto
 		UsuarioCliente usuario=mock(UsuarioCliente.class);
 		when(usuario.getUsuario()).thenReturn("ejemplo");
-		Servidor servidor=mock(Servidor.class);
+		Server servidor=mock(Server.class);
 		String mensaje="mensaje";
 		Sms sms=mock(Sms.class);
 		PorSmsYMail porMailSms=new PorSmsYMail(usuario,mensaje);
