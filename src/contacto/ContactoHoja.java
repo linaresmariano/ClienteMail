@@ -19,4 +19,7 @@ public class ContactoHoja extends Contacto {
 	public String getMail() {
 		return this.mail;
 	}
+
+	@Override
+	public void eliminarContacto(Contacto c) {}
 }

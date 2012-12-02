@@ -32,6 +32,12 @@ public class Lista extends Contacto {
 		this.getContactos().add(c);
 	}
 	
+	@Override
+	// Borra un contacto de la lista
+	public void eliminarContacto(Contacto c) {
+		this.getContactos().remove(c);
+	}
+	
 	// Denota la lista de contactos
 	public List<Contacto> getContactos() {
 		return this.contactos;

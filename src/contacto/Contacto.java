@@ -12,6 +12,9 @@ public abstract class Contacto {
 	public abstract boolean contains(Contacto c);
 	public abstract String getMail();
 	
+	// Eliminar un contacto
+	public abstract void eliminarContacto(Contacto c);
+	
 	// Son iguales cuando tienen el mismo mail
 	public boolean equals(Contacto c) {
 		return this.getMail().equals(c.getMail());
