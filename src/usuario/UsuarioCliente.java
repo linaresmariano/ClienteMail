@@ -197,7 +197,7 @@ public class UsuarioCliente {
 
 	public void setEstado(EstadoUsuario estado) { this.estado = estado; }
 
-	public Contacto getContactos() { return contactos; }
+	public Lista getContactos() { return contactos; }
 
 	public void setContactos(Lista contactos) { this.contactos = contactos; }
 
