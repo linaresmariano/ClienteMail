@@ -13,15 +13,13 @@ public class PorMailTest {
 	public void envioRecordatorio(){
 		UsuarioCliente usuario=mock(UsuarioCliente.class);
 		when(usuario.getUsuario()).thenReturn("ejemplo");
-		Server servidor=mock(Server.class);
-		when(servidor.getDominio()).thenReturn("gmail.com");
-		when(usuario.getServidor()).thenReturn(servidor);
+			
 		
 		PorMail porMail=new PorMail(usuario,"mensaje");
 		porMail.enviarRecordatorio();
 		
 		verify(usuario).enviarMail(any(Mail.class));
 		verify(usuario).getUsuario();
-		verify(usuario).getServidor();
+		
 	}
 }
