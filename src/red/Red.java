@@ -51,7 +51,7 @@ public class Red {
 		return adjuntoCliente;
 	}
 
-	public static void eliminarMail(Server servidor, String usuario, int indice) { servidor.borrarMail(usuario, indice); }
+	public static void setEtiqueta(Server servidor, String usuario, int indice, LinkedList<String> etiqueta) { servidor.setEtiqueta(usuario, indice, etiqueta); }
 	
 	private static Mail convertirMailServerAClientePOP3(MailServer unMailTipoServer) {
 		
@@ -65,7 +65,9 @@ public class Red {
 		// Mail
 		Mail newMail = new Mail();
 		newMail.setEncabezado(encabezado);
-		newMail.setAdjunto(new Adjunto(unMailTipoServer.getAdjunto().getNombre()));
+		if (unMailTipoServer.getAdjunto() != null) {
+			newMail.setAdjunto(new Adjunto(unMailTipoServer.getAdjunto().getNombre()));
+		}
 		newMail.setCuerpo(unMailTipoServer.getCuerpo());
 		newMail.setIndice(unMailTipoServer.getIndice());
 		newMail.setLeido(unMailTipoServer.isLeido());
@@ -86,7 +88,9 @@ public class Red {
 		// Mail
 		Mail newMail = new Mail();
 		newMail.setEncabezado(encabezado);
-		newMail.setAdjunto(new Adjunto(unMailTipoServer.getAdjunto().getNombre()));
+		if (unMailTipoServer.getAdjunto() != null) {
+			newMail.setAdjunto(new Adjunto(unMailTipoServer.getAdjunto().getNombre()));
+		}
 		newMail.setIndice(unMailTipoServer.getIndice());
 		newMail.setLeido(unMailTipoServer.isLeido());
 		newMail.setEtiqueta(unMailTipoServer.getEtiqueta());
@@ -96,8 +100,13 @@ public class Red {
 	
 	private static MailServer convertirMailClienteAServer(Mail unMailTipoCliente) {
 		
+		AdjuntoServer adjuntoServer = null;
+		
 		// Adjunto
-		AdjuntoServer adjuntoServer = new AdjuntoServer(unMailTipoCliente.getAdjunto().getNombre(), unMailTipoCliente.getAdjunto().getArchivo());
+		if (unMailTipoCliente.getAdjunto() != null) {
+			
+			adjuntoServer = new AdjuntoServer(unMailTipoCliente.getAdjunto().getNombre(), unMailTipoCliente.getAdjunto().getArchivo());
+		}
 		
 		// Mail
 		MailServer newMail = new MailServer(unMailTipoCliente.getEncabezado().getDestinatario(), unMailTipoCliente.getCuerpo());

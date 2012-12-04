@@ -45,7 +45,7 @@ public class Cliente {
 			}
 
 			catch (InvalidUserOrPass e) { System.out.println("Usuario o Password Invalido");}
-			catch (AlreadyLogged e) { System.out.println("Ya has iniciado sesion");}
+			catch (AlreadyLogged e) { System.out.println("Ya has iniciado sesion");}	
 		}
 
 		// Si el usuarioActivo existe ...

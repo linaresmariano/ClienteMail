@@ -2,7 +2,6 @@ package calendario.estrategiasRecordatorias;
 
 import org.junit.Test;
 
-import server.Server;
 import directorio.Mail;
 import usuario.UsuarioCliente;
 import static org.mockito.Mockito.*;
@@ -18,7 +17,9 @@ public class PorMailTest {
 		PorMail porMail=new PorMail(usuario,"mensaje");
 		porMail.enviarRecordatorio();
 		
-		verify(usuario).enviarMail(any(Mail.class));
+		try { verify(usuario).enviarMail(any(Mail.class)); } 
+		catch (Exception e) { e.printStackTrace(); }
+		
 		verify(usuario).getUsuario();
 		
 	}

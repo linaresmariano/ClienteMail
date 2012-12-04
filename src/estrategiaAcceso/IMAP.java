@@ -23,7 +23,9 @@ public class IMAP extends EstrategiaAcceso {
 	@Override
 	public void eliminarMail(Mail mail, Server servidor, String usuario, Carpeta directorio) {
 		
-		Red.eliminarMail(servidor, usuario, mail.getIndice());
+		LinkedList<String> etiqueta = new LinkedList<String>();
+		etiqueta.add("papelera");
+		Red.setEtiqueta(servidor, usuario, mail.getIndice(), etiqueta);
 		directorio.eliminarMail(mail);
 	}
 

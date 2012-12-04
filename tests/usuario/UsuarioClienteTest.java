@@ -3,7 +3,6 @@ package usuario;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.junit.Before;
@@ -12,9 +11,6 @@ import org.mockito.Mock;
 
 import server.Server;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
-import contacto.Contacto;
 import contacto.ContactoHoja;
 import contacto.Lista;
 
@@ -23,7 +19,6 @@ import calendario.eventos.Evento;
 import cliente.Cliente;
 
 import directorio.Carpeta;
-import directorio.DirectorioUsuario;
 import directorio.Mail;
 import directorio.partesDeMail.Adjunto;
 import estrategiaAcceso.EstrategiaAcceso;

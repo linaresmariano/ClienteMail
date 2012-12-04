@@ -10,6 +10,12 @@ import directorio.Mail;
 public class POP3 extends EstrategiaAcceso {
 
 	private boolean dejarCopia;
+	
+	// Constructor
+	public POP3(boolean dejarCopia) {
+		
+		this.dejarCopia = dejarCopia; 
+	}
 
 	@Override
 	public String getCuerpo(Server servidor, String usuario, Mail mail) {
@@ -25,7 +31,13 @@ public class POP3 extends EstrategiaAcceso {
 			
 			LinkedList<Mail> mails = Red.getMailsTipoPOP3(servidor, usuario);
 			
-			for (Mail unMail : mails) { Red.eliminarMail(servidor, usuario, unMail.getIndice()); }
+			for (Mail unMail : mails) { 
+				
+				LinkedList<String> etiqueta = new LinkedList<String>();
+				etiqueta.add("papelera");
+				Red.setEtiqueta(servidor, usuario, unMail.getIndice(), etiqueta);
+			}
+			
 			return mails;
 		}
 	}

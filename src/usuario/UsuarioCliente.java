@@ -95,29 +95,25 @@ public class UsuarioCliente {
 		}
 	}
 	
-	// REVISAR ESTE METODO BIEN!
 	public void enviarMails() {
 		
 		// listaMails son todos los hijos de bandejaSalida
+		// INVARIANTE DE REPRESENTACION - > Los hijos de borradores son todos de clase Mail
 		List<DirectorioUsuario> listaMails = this.directorio.retornarCarpetaDeNombre("borradores").getHijos();
 			
 		// Para cada hijo de bandejaSalida se fija si es un Mail, lo envia y luego lo elimina
-		for (DirectorioUsuario unPosibleMail : listaMails) {
+		for (DirectorioUsuario unMail : listaMails) {
  
-			if (unPosibleMail.getClass().equals(Mail.class)) {
+			String destinatario = ((Mail) unMail).getEncabezado().getDestinatario() ;
 					
-				String destinatario = ((Mail) unPosibleMail).getEncabezado().getDestinatario() ;
-					
-				try { 
-					this.enviarMail((Mail) unPosibleMail);
-					this.eliminarMail((Mail) unPosibleMail);
-					System.out.println("El mail para: " + destinatario + " se ha eliminado de bandejaSalida");
-				}
-					
-				catch (Exception e) { System.out.println("Ha fallado el envio de mails en el mail para: " + destinatario + " no se continuara el proceso"); }
+			try { 
+				this.enviarMail((Mail) unMail);
+				System.out.println("El mail para: " + destinatario + " se ha eliminado de borradores");
+			}
+
+			catch (Exception e) { System.out.println("Ha fallado el envio de mails en el mail para: " + destinatario + " no se continuara el proceso"); }
 			}
 		}
-	}
 	
 	public Mail redactarMail(Contacto contacto, String asunto, String cuerpo) {
 		

@@ -1,7 +1,6 @@
 package calendario.estrategiasRecordatorias;
 
 import org.junit.Test;
-import server.Server;
 import calendario.Sms;
 import directorio.Mail;
 import usuario.UsuarioCliente;
@@ -30,7 +29,8 @@ public class PorSmsYMailTest {
 		porMailSms.enviarRecordatorio();
 
 		//controlando si se envio correctamente por mail
-		verify(usuario).enviarMail(any(Mail.class));
+		try { verify(usuario).enviarMail(any(Mail.class)); } 
+		catch (Exception e) { e.printStackTrace(); }
 		verify(usuario).getUsuario();
 	
 		
