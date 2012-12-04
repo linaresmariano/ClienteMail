@@ -127,5 +127,10 @@ public class Carpeta extends DirectorioUsuario{
         mail.setEtiqueta(destino);
         this.agregarMail(mail);
      }
+     
+      //agrega una carpeta a los hijos
+     public void agregarSubCarpeta(String nombre){
+    	 this.getHijos().add(new Carpeta(nombre,profundidad+1));
+     }
 	
 }
