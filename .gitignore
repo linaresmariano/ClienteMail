@@ -6,5 +6,5 @@
 *.war
 *.ear
 
-.classpath
-.project
+/.classpath
+/.project
