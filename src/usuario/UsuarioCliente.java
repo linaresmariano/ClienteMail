@@ -59,6 +59,7 @@ public class UsuarioCliente {
 	public void enviarMail(Mail mail) throws Exception { 
 		
 		String destinatario = mail.getEncabezado().getDestinatario() ;
+		
 		try { 
 			this.cliente.send(mail);
 			LinkedList<String> nuevoPath = new LinkedList<String>();
@@ -67,7 +68,7 @@ public class UsuarioCliente {
 			System.out.println("El mail para:" + destinatario + " se ha enviado correctamente");
 		} 
 		
-		catch (Exception e) { throw new Exception("El mail para: " + mail.getEncabezado().getDestinatario() + " no se ha enviado, quedar‡ en bandejaSalida"); }
+		catch (Exception e) { throw new Exception("El mail para: " + destinatario + " no se ha enviado, quedar‡ en bandejaSalida"); }
 	}
 	
 	// Deriva la eliminacion del mail a la estrategia

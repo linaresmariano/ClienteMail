@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +20,10 @@ import calendario.eventos.Evento;
 import cliente.Cliente;
 
 import directorio.Carpeta;
+import directorio.DirectorioUsuario;
 import directorio.Mail;
 import directorio.partesDeMail.Adjunto;
+import directorio.partesDeMail.Encabezado;
 import estrategiaAcceso.EstrategiaAcceso;
 import filtros.Filtro;
 
@@ -39,9 +42,11 @@ public class UsuarioClienteTest {
 	@Mock LinkedList<Filtro> listaFiltrosMock;
 	@Mock Server servidorMock;
 	@Mock Carpeta directorioMock;
+	@Mock Encabezado encabezadoMock;
 	String nombreUsuario;
 	String passUsuario;
 	String cuerpoMail;
+	String destinatario;
 	int indiceMail;
 	
 	@Before 
@@ -59,13 +64,14 @@ public class UsuarioClienteTest {
 		listaFiltrosMock = mock(LinkedList.class);
 		servidorMock = mock(Server.class);
 		directorioMock = mock(Carpeta.class);
+		encabezadoMock = mock(Encabezado.class);
 		
 		nombreUsuario = "pedro@caskmail.com";
 		passUsuario = "iAmGod";
 		usuario = new UsuarioCliente(nombreUsuario, passUsuario, clienteMock, estrategiaMock);
-		usuario.setCliente(clienteMock);
 		cuerpoMail = "Soy el cuerpo de un Mail ;)";
 		indiceMail = 2;
+		destinatario = "toti@mertmail.com";
 	}
 	
 	// TestearConstructor????
@@ -212,23 +218,79 @@ public class UsuarioClienteTest {
 	}
 	
 	@Test
-	public void eliminarMailTest() {
+	public void getAdjuntoNullMailTest() {
 		
-		// La liminacion del mails depende de la estrategia, por lo que se deriva el pedido
+		// El metodo deriva el pedido del adjunto del mail a la estrategia, que pasa si el mail no tiene adjunto!
+		when(estrategiaMock.getAdjunto(servidorMock, nombreUsuario, indiceMail)).thenReturn(null);
 		when(clienteMock.getServer()).thenReturn(servidorMock);
 		when(mailMock.getIndice()).thenReturn(indiceMail);
+
+		// PRUEBA
+		// Prueba que el mail retorna el adjunto correcto cuando se lo piden
+		assertNull("El adjunto del mail es null", usuario.getAdjuntoMail(mailMock));
+
+		// Verifica que la estrategia recibe el mensaje getAdjunto con los argumentos correctos
+		verify(estrategiaMock).getAdjunto(servidorMock, usuario.getUsuario(), mailMock.getIndice());
+	}
+	
+	@Test
+	public void eliminarMailTest() {
 		
+		// La eliminacion del mails depende de la estrategia, por lo que se deriva el pedido
+		usuario.setDirectorio(directorioMock);
+		when(clienteMock.getServer()).thenReturn(servidorMock);
 		
+		// PRUEBA
+		usuario.eliminarMail(mailMock);
 		
+		// Verifica que le llega el mensaje eliminarMail a la estrategia con los argumentos correctos
+		verify(estrategiaMock).eliminarMail(mailMock, servidorMock, nombreUsuario, directorioMock);
 	}
 	
 	@Test
 	public void enviarMailTest() {
-		fail("Not yet implemented");
+		
+		List<String> pathEnviados = new LinkedList<String>();
+		pathEnviados.add("enviados");
+		
+		usuario.setDirectorio(directorioMock);
+		
+		when(mailMock.getEncabezado()).thenReturn(encabezadoMock);
+		when(encabezadoMock.getDestinatario()).thenReturn(destinatario);
+		
+		// PRUEBA
+		try { usuario.enviarMail(mailMock); } 
+		catch (Exception e) { fail("No se pudo enviar el mensaje enviarMail al usuario"); }
+		
+		// Verifica que el cliente recibe el mensaje send con el mail adecuado
+		try { verify(clienteMock).send(mailMock); } 
+		catch (Exception e) { fail("Fallo la verificacion del metodo send enviado a clienteMock"); }
+		
+		// Verifica que el directorio recibe el mensaje moverA con el mail y el path adecuados
+		verify(directorioMock).moverA(mailMock, pathEnviados);
+		
 	}
+	
 	@Test
-	public void enviarMails() {
-		fail("Not yet implemented");
+	public void enviarMailsTest() {
+		
+		Carpeta carpetaMock = mock(Carpeta.class);
+		Mail mailMock1 = mock(Mail.class);
+		Mail mailMock2 = mock(Mail.class);
+		Mail mailMock3 = mock(Mail.class);
+		List<Mail> listaHijos = new LinkedList<Mail>();
+		listaHijos.add(mailMock1);
+		listaHijos.add(mailMock2);
+		listaHijos.add(mailMock3);
+		
+		
+		
+		when(directorioMock.retornarCarpetaDeNombre("borradores")).thenReturn(carpetaMock);
+		when(carpetaMock.getHijos()).thenReturn(listaHijos);
+		
+		// Verifica si se envia el mensaje retornarCarpetaDeNombre al directorio del usuario
+		verify(directorioMock).retornarCarpetaDeNombre("borradores");
+		
 	}
 	
 	@Test
