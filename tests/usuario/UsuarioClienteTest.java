@@ -3,6 +3,7 @@ package usuario;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import directorio.DirectorioUsuario;
 import directorio.Mail;
 import directorio.partesDeMail.Adjunto;
 import directorio.partesDeMail.Encabezado;
+import estadoUsuario.EstadoUsuario;
 import estrategiaAcceso.EstrategiaAcceso;
 import filtros.Filtro;
 
@@ -43,10 +45,12 @@ public class UsuarioClienteTest {
 	@Mock Server servidorMock;
 	@Mock Carpeta directorioMock;
 	@Mock Encabezado encabezadoMock;
+	@Mock EstadoUsuario estadoMock;
 	String nombreUsuario;
 	String passUsuario;
 	String cuerpoMail;
 	String destinatario;
+	String asunto;
 	int indiceMail;
 	
 	@Before 
@@ -61,10 +65,10 @@ public class UsuarioClienteTest {
 		eventoMock = mock(Evento.class);
 		calendarioMock = mock(Calendario.class);
 		filtroMock = mock(Filtro.class);
-		listaFiltrosMock = mock(LinkedList.class);
 		servidorMock = mock(Server.class);
 		directorioMock = mock(Carpeta.class);
 		encabezadoMock = mock(Encabezado.class);
+		estadoMock = mock(EstadoUsuario.class);
 		
 		nombreUsuario = "pedro@caskmail.com";
 		passUsuario = "iAmGod";
@@ -72,6 +76,7 @@ public class UsuarioClienteTest {
 		cuerpoMail = "Soy el cuerpo de un Mail ;)";
 		indiceMail = 2;
 		destinatario = "toti@mertmail.com";
+		asunto = "UltraImportante";
 	}
 	
 	// TestearConstructor????
@@ -274,39 +279,179 @@ public class UsuarioClienteTest {
 	@Test
 	public void enviarMailsTest() {
 		
-		Carpeta carpetaMock = mock(Carpeta.class);
+		usuario.setDirectorio(directorioMock);
+		
 		Mail mailMock1 = mock(Mail.class);
 		Mail mailMock2 = mock(Mail.class);
 		Mail mailMock3 = mock(Mail.class);
-		List<Mail> listaHijos = new LinkedList<Mail>();
+		
+		Encabezado encabezadoMock1 = mock(Encabezado.class);
+		Encabezado encabezadoMock2 = mock(Encabezado.class);
+		Encabezado encabezadoMock3 = mock(Encabezado.class);
+		
+		String destinatario1 = "perri@tongomail.com";
+		String destinatario2 = "pituco@tongomail.com";
+		String destinatario3 = "fermi@tongomail.com";
+		
+		when(mailMock1.getEncabezado()).thenReturn(encabezadoMock1);
+		when(mailMock2.getEncabezado()).thenReturn(encabezadoMock2);
+		when(mailMock3.getEncabezado()).thenReturn(encabezadoMock3);
+		
+		when(encabezadoMock1.getDestinatario()).thenReturn(destinatario1);
+		when(encabezadoMock2.getDestinatario()).thenReturn(destinatario2);
+		when(encabezadoMock3.getDestinatario()).thenReturn(destinatario3);
+		
+		Carpeta carpetaMock = mock(Carpeta.class);
+		
+		LinkedList<DirectorioUsuario> listaHijos = new LinkedList<DirectorioUsuario>();
+		
+		// Si la lista de mails esta vacia, entonces el metodo no debe hacer nada
+		when(directorioMock.retornarCarpetaDeNombre("borradores")).thenReturn(carpetaMock);
+		when(carpetaMock.getHijos()).thenReturn(listaHijos);
+
+		// PRUEBA
+		usuario.enviarMails();
+
+		// Verifica que no se envia ningun mensaje a ningun objeto
+		verifyZeroInteractions(mailMock1, mailMock2, mailMock3, encabezadoMock1, encabezadoMock2, encabezadoMock3);
+		
+		// Ahora se agregan mails a la lista hijos y se prueba de nuevo
+		
 		listaHijos.add(mailMock1);
 		listaHijos.add(mailMock2);
 		listaHijos.add(mailMock3);
 		
-		
-		
-		when(directorioMock.retornarCarpetaDeNombre("borradores")).thenReturn(carpetaMock);
 		when(carpetaMock.getHijos()).thenReturn(listaHijos);
 		
-		// Verifica si se envia el mensaje retornarCarpetaDeNombre al directorio del usuario
-		verify(directorioMock).retornarCarpetaDeNombre("borradores");
+		// PRUEBA
+		usuario.enviarMails();
 		
+		// Verifica si se envia el mensaje retornarCarpetaDeNombre al directorio del usuario
+		// 2 veces porque ya se llamo en la prueba anterior
+		verify(directorioMock, times(2)).retornarCarpetaDeNombre("borradores");
+		
+		// Verifica si se envia el mensaje getHijos a la carpeta "borradores"
+		// 2 veces porque ya se llamo en la prueba anterior
+		verify(carpetaMock, times(2)).getHijos();
+		
+		// Verifica si a todos los mails de la listaHijos les llega el mensaje getEncabezado
+		// 2 veces porque se invoca al metodo envialMail(mail) que vuelve a pedir lo mismo
+		verify(mailMock1, times(2)).getEncabezado();
+		verify(mailMock2, times(2)).getEncabezado();
+		verify(mailMock3, times(2)).getEncabezado();
+		
+		// Verifica si a cada encabezado de cada mail de la lista les llega el mensaje getDestinatario
+		// 2 veces porque se invoca al metodo envialMail(mail) que vuelve a pedir lo mismo
+		verify(encabezadoMock1, times(2)).getDestinatario();
+		verify(encabezadoMock2, times(2)).getDestinatario();
+		verify(encabezadoMock3, times(2)).getDestinatario();
 	}
 	
 	@Test
 	public void recibirMailsTest() {
-		fail("Not yet implemented");
+		
+		usuario.setDirectorio(directorioMock);
+		usuario.setEstado(estadoMock);
+		
+		// Filtros
+		LinkedList<Filtro> listaFiltros = new LinkedList<Filtro>();
+		Filtro filtroMock1NoExcluyente = mock(Filtro.class);
+		Filtro filtroMock2Excluyente = mock(Filtro.class);
+		Filtro filtroMock3Ultimo = mock(Filtro.class);
+		
+		listaFiltros.add(filtroMock1NoExcluyente);
+		listaFiltros.add(filtroMock2Excluyente);
+		listaFiltros.add(filtroMock3Ultimo);
+		
+		usuario.setFiltros(listaFiltros);
+		
+		// Con la lista de mails vacia, el metodo no deberia hacer nada con los mails
+		LinkedList<Mail> listaMails = new LinkedList<Mail>();
+		
+		when(clienteMock.getServer()).thenReturn(servidorMock);
+		when(estrategiaMock.bajarYRetornarMails(servidorMock, nombreUsuario)).thenReturn(listaMails);
+		
+		// PRUEBA - Con la lista de mails vacia, el metodo no deberia hacer nada con los mails
+		usuario.recibirMails();
+		
+		// Verifica que la estrategia recibe el mensaje bajarYRetornarMails con los argumentos correctos
+		verify(estrategiaMock).bajarYRetornarMails(servidorMock, nombreUsuario);
+		
+		// Verifica que el cliente recibe el mensaje getServer
+		verify(clienteMock).getServer();
+		
+		// Ahora agregamos los mails a la listaMails
+		Mail mailMockCumpleExcluyente = mock(Mail.class);
+		Mail mailMockNoCumpleExcluyente = mock(Mail.class);
+		listaMails.add(mailMockCumpleExcluyente);
+		listaMails.add(mailMockNoCumpleExcluyente);
+		
+		// PRUEBA - Ahora la lista de mails tiene mails
+		usuario.recibirMails();
+		
+		// Verifica que le llega el mensaje teLlegoMail al estado, una vez por cada mail en la listaMail.
+		verify(estadoMock).teLlegoMail(mailMockNoCumpleExcluyente, usuario);
+		verify(estadoMock).teLlegoMail(mailMockCumpleExcluyente, usuario);
+		
+		// Verifica que le llega el mensaje agregarMail al directorio, una vez por cada mail en la listaMail
+		verify(directorioMock).agregarMail(mailMockNoCumpleExcluyente);
+		verify(directorioMock).agregarMail(mailMockCumpleExcluyente);
+		
+		// Verifica que la estrategia recibe el mensaje bajarYRetornarMails con los argumentos correctos
+		verify(estrategiaMock, times(2)).bajarYRetornarMails(servidorMock, nombreUsuario);
+		
+		// Verifica que el cliente recibe el mensaje getServer
+		verify(clienteMock, times(2)).getServer();
+		
+		// Configuracion de filtros mocks //
+		
+		when(filtroMock1NoExcluyente.esExcluyente()).thenReturn(false);
+		when(filtroMock2Excluyente.esExcluyente()).thenReturn(true);
+		when(filtroMock3Ultimo.esExcluyente()).thenReturn(false);
+		
+		when(filtroMock1NoExcluyente.aplicar(mailMockCumpleExcluyente)).thenReturn(true);
+		when(filtroMock1NoExcluyente.aplicar(mailMockNoCumpleExcluyente)).thenReturn(false);
+		
+		when(filtroMock2Excluyente.aplicar(mailMockCumpleExcluyente)).thenReturn(true);
+		when(filtroMock2Excluyente.aplicar(mailMockNoCumpleExcluyente)).thenReturn(false);
+		
+		when(filtroMock3Ultimo.aplicar(mailMockCumpleExcluyente)).thenReturn(false);
+		when(filtroMock3Ultimo.aplicar(mailMockNoCumpleExcluyente)).thenReturn(true);
+		
+		// Verificacion de filtros //
+		
+		verify(filtroMock1NoExcluyente).aplicar(mailMockCumpleExcluyente);
+		verify(filtroMock1NoExcluyente).aplicar(mailMockNoCumpleExcluyente);
+		
+		verify(filtroMock2Excluyente).aplicar(mailMockCumpleExcluyente);
+		verify(filtroMock2Excluyente).aplicar(mailMockNoCumpleExcluyente);
+		
+		verify(filtroMock3Ultimo).aplicar(mailMockCumpleExcluyente);
+		verify(filtroMock3Ultimo).aplicar(mailMockNoCumpleExcluyente);
+		
+		verifyZeroInteractions(filtroMock1NoExcluyente, filtroMock2Excluyente, filtroMock3Ultimo);	
 	}
 	
 	@Test
 	public void redactarMailTest() {
-		fail("Not yet implemented");
+		
+		usuario.setDirectorio(directorioMock);
+		when(contactoMock.getMail()).thenReturn(destinatario);
+		
+		// PRUEBA -- Se usa un objeto del dominio, porque sera instanciad de todas formas --
+		Mail newMail = usuario.redactarMail(contactoMock, asunto, cuerpoMail);
+		
+		assertEquals("El nuevo mail tiene el destinatario correcto", contactoMock.getMail(), newMail.getEncabezado().getDestinatario());
+		assertEquals("El nuevo mail tiene el asunto correcto", asunto, newMail.getEncabezado().getAsunto());
+		assertEquals("El nuevo mail tiene el cuerpo correcto", cuerpoMail, newMail.getCuerpo());
+		assertEquals("El nuevo mail no tiene adjunto", null, newMail.getAdjunto());
+		assertEquals("El nuevo mail no esta leido", false, newMail.estaLeido());
+		assertEquals("El nuevo mail tiene la etiqueta correcta", "borradores", newMail.getEtiqueta().get(0));
+		assertEquals("El nuevo mail tiene el remitente correcto", nombreUsuario, newMail.getRemitente());
+		Calendar fechaActual = Calendar.getInstance();
+		assertTrue("El nuevo mail tiene un fecha correcta", newMail.getFecha().equals(fechaActual));
+		
+		// Verifica si el directorio recibe el mensaje agregarMail con el mail adecuado
+		verify(directorioMock).agregarMail(newMail);
 	}
-	
-	@Test
-	public void redactarMailConAdjuntoTest() {
-		fail("Not yet implemented");
-	}
-	
-	
 }

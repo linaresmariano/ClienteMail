@@ -127,35 +127,25 @@ public class ClienteTest {
 		// Si no hay usuario activo (null), el metodo login deberia crear uno.
 		cliente.setUsuario(null);
 		
-		// La clase UsuarioCliente devolvera el usuarioMock en respuesta al pedido de instanciacion de un usuario nuevo
-		// Como hagooooooo????? AAAAAHHHHHH
-		
 		nombreUsuario = "pedro@caskmail.com";
 		passwordUsuario = "iAmGod";
 		
-		when(usuarioMock.getUsuario()).thenReturn(nombreUsuario);
-		
 		// Los argumentos del login pertenecen a un usuario logueado en el servidor
 		try { when(servidorMock.login(nombreUsuario, passwordUsuario)).thenReturn(true); }
-		catch (InvalidUserOrPass e1) { e1.printStackTrace(); } 
-		catch (AlreadyLogged e1) { e1.printStackTrace(); }
+		catch (InvalidUserOrPass e1) { fail(); } 
+		catch (AlreadyLogged e1) { fail(); }
 		
-		// PRUEBA
-		cliente.login(nombreUsuario, passwordUsuario, estrategiaMock);
+		// PRUEBA  -- Se usa un objeto del dominio, porque sera instanciad de todas formas --
+		UsuarioCliente newUsuario = cliente.login(nombreUsuario, passwordUsuario, estrategiaMock);
 		
 		// Verifico que el servidor recibe el mensaje login con el nombre de usuario y el password correctos
 		try { verify(servidorMock).login(nombreUsuario, passwordUsuario); } 
-		catch (InvalidUserOrPass e) { e.printStackTrace(); } 
-		catch (AlreadyLogged e) { e.printStackTrace(); }
+		catch (InvalidUserOrPass e) { fail(); } 
+		catch (AlreadyLogged e) { fail(); }
 		
-		// Verifico que se llama al constructor de la clase UsuarioCliente
-		// Como :( ???????
-		
-		// Pruebo que se instancia un nuevo usuario para el usuarioActivo del cliente (que va a ser el usuarioMock)
-		// assertEquals("El UsuarioActivo se instancio correctamente", usuarioMock, cliente.getUsuario());
-		
-		// Verifico que se envia el mensaje recibirMails al usuarioActivo
-		// verify(usuarioMock).recibirMails();
+		assertEquals("El UsuarioActivo se instancio correctamente", newUsuario, cliente.getUsuario());
+		assertEquals("El nombre del usuario nuevo es correcto", nombreUsuario, cliente.getUsuario().getUsuario());
+		assertEquals("El password del usuario nuevo es correcto", passwordUsuario, cliente.getUsuario().getPassword());
 	}
 
 	@Test

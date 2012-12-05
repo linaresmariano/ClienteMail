@@ -44,7 +44,7 @@ public class UsuarioCliente {
 		this.estrategia = estrategia;
 		// Los valores por defecto
 		this.directorio = new Carpeta("root");
-		this.directorio.agregarSubCarpeta("bandejaSalida");
+		this.directorio.agregarSubCarpeta("borradores");
 		this.filtros = new LinkedList<Filtro>();
 		this.contactos = new Lista("todos");
 		this.estado = new Activo();
